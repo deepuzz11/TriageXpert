@@ -1,4 +1,4 @@
-### ** TriageXpert Processing Pipeline**
+### TriageXpert Processing Pipeline
 
 ```mermaid
 sequenceDiagram
