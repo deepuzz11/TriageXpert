@@ -1,80 +1,82 @@
 import os
 import google.generativeai as genai
+import json
+from typing import Dict, Any, List
 
 # --- Configuration ---
-# IMPORTANT: Replace with your actual Google AI API key in your environment variables.
-# For local development, you can set it directly:
-# os.environ['GOOGLE_API_KEY'] = "YOUR_API_KEY"
-# However, for production, it's recommended to use environment variables.
 API_KEY = os.getenv("GOOGLE_API_KEY")
 if not API_KEY:
     print("Warning: GOOGLE_API_KEY environment variable not set.")
-    # You might want to raise an exception here in a real application
-    # raise ValueError("API key for Google AI is not set!")
-
 try:
     genai.configure(api_key=API_KEY)
 except Exception as e:
     print(f"Error configuring Gemini API: {e}")
 
-
-def generate_explanation_and_suggestion(symptoms: str, category: str) -> str:
+def generate_structured_explanation(
+    user_profile: Dict[str, Any], 
+    symptoms: str, 
+    category: str, 
+    keywords: List[str], 
+    language: str = "en"
+) -> Dict[str, Any]:
     """
-    Generates a patient-friendly explanation and suggestion using the Gemini API.
-
-    Args:
-        symptoms (str): The patient-reported symptoms.
-        category (str): The triage category determined by the NLP model
-                        (Emergency, Urgent, or Routine).
-
-    Returns:
-        str: A string containing the explanation and suggestion. Returns a
-             default message if the API call fails.
+    Generates a highly contextual, structured, multi-lingual explanation.
     """
     if not API_KEY:
-        return "Gemini API key not configured. Cannot generate explanation."
+        return {
+            "error": "Gemini API key not configured.",
+            "explanation": "Cannot generate explanation.", "home_care_suggestions": None, "when_to_worry": None, "next_steps": None
+        }
 
-    # Set up the model
     generation_config = {
-        "temperature": 0.7,
+        "temperature": 0.5,
         "top_p": 1,
         "top_k": 1,
         "max_output_tokens": 2048,
+        "response_mime_type": "application/json",
     }
 
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest",
-                              generation_config=generation_config)
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest", generation_config=generation_config)
+    
+    lang_map = {"en": "English", "hi": "Hindi", "ta": "Tamil", "te": "Telugu", "ml": "Malayalam", "kn": "Kannada"}
+    output_language = lang_map.get(language, "English")
 
-    prompt_parts = [
-        "You are a helpful medical assistant. Based on the following patient symptoms and the assigned triage category, provide a brief, easy-to-understand explanation for the triage level and a clear suggestion for the next steps. Do not provide a diagnosis. Frame the response for a non-medical person.",
-        f"Symptoms: \"{symptoms}\"",
-        f"Triage Category: \"{category}\"",
-        "Explanation and Suggestion:",
-    ]
+    prompt = f"""
+    You are an expert medical pre-screening assistant for a tool in India. Your goal is to provide a calm, structured, and context-aware response for a non-medical user based on their complete profile.
+
+    **CRITICAL INSTRUCTION:** Your analysis MUST be influenced by the user's profile. For example, chest pain in an older patient with hypertension is more critical than in a young, healthy patient. Mention the context if relevant (e.g., "Given your age and history of..."). DO NOT diagnose.
+
+    **Patient's Full Profile:**
+    - Age: {user_profile.get('age', 'Not provided')}
+    - Gender: {user_profile.get('gender', 'Not provided')}
+    - Body Mass Index (BMI): {user_profile.get('bmi', 'Not calculated')}
+    - Pre-existing Conditions: {', '.join(user_profile.get('history', [])) if user_profile.get('history') else 'None reported'}
+    - Symptoms Reported: "{symptoms}"
+    - Key Symptoms Identified by NLP: {", ".join(keywords) if keywords else "N/A"}
+    - Assigned Triage Category: "{category}"
+
+    **Your Instructions:**
+    1.  **Language:** Generate the entire response in **{output_language}**.
+    2.  **Format:** Respond with a valid JSON object with the exact following keys:
+        - "explanation": (String) A brief explanation for the '{category}' triage level, referencing the user's profile and symptoms.
+        - "home_care_suggestions": (String or null) If category is 'Routine', provide 2-3 simple home care tips relevant to the symptoms. Otherwise, null.
+        - "when_to_worry": (String) A clear, bulleted or numbered list of specific signs that should prompt the user to seek immediate medical attention.
+        - "next_steps": (String) A clear, actionable suggestion for what to do next.
+
+    **JSON Response Template:**
+    {{
+        "explanation": "...", "home_care_suggestions": "...", "when_to_worry": "...", "next_steps": "..."
+    }}
+    """
 
     try:
-        response = model.generate_content(prompt_parts)
-        return response.text
+        response = model.generate_content([prompt])
+        return json.loads(response.text)
     except Exception as e:
-        print(f"Error during Gemini API call: {e}")
-        # Fallback message in case of API error
-        if category == "Emergency":
-            return "Based on the symptoms provided, immediate medical attention is recommended. Please go to the nearest emergency room or call your local emergency number."
-        elif category == "Urgent":
-            return "Your symptoms suggest that you should seek medical advice soon. Please contact your doctor's office or an urgent care center within the next 24 hours."
-        else:
-            return "These symptoms do not appear to require immediate attention. We recommend monitoring them and scheduling an appointment with your primary care physician."
-
-# --- Sample Usage ---
-# if __name__ == '__main__':
-#     sample_symptoms = "I have a severe headache, dizziness, and blurred vision for the last hour."
-#     sample_category = "Emergency"
-#     explanation = generate_explanation_and_suggestion(sample_symptoms, sample_category)
-#     print(f"--- Gemini Response for {sample_category} ---")
-#     print(explanation)
-#
-#     sample_symptoms_2 = "I've had a mild cough and a runny nose for two days."
-#     sample_category_2 = "Routine"
-#     explanation_2 = generate_explanation_and_suggestion(sample_symptoms_2, sample_category_2)
-#     print(f"\n--- Gemini Response for {sample_category_2} ---")
-#     print(explanation_2)
+        print(f"Error during Gemini API call or JSON parsing: {e}")
+        return {
+            "explanation": "Could not generate a detailed explanation. Please follow standard medical advice for your determined triage category.",
+            "home_care_suggestions": None,
+            "when_to_worry": "If symptoms worsen, please seek help.",
+            "next_steps": "Consult a medical professional."
+        }
