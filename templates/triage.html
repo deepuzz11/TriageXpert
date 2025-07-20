@@ -24,15 +24,15 @@
     <div class="tool-container">
         <header class="tool-header">
             <div class="header-content">
-                <h1 data-key="title">Triage Pre-Screening Tool</h1>
-                <p class="subtitle" data-key="subtitle">Please provide your information for a more accurate analysis.</p>
+                <h1>Triage Pre-Screening Tool</h1>
+                <p class="subtitle">Please provide your information for a more accurate analysis.</p>
             </div>
         </header>
 
         <main class="main-grid-tool">
             <div id="start-section" class="start-section">
                 <button id="startBtn" class="hero-button">
-                    <i class="fa-solid fa-play"></i> <span data-key="start_button">Start Pre-Screening</span>
+                    <i class="fa-solid fa-play"></i> Start Pre-Screening
                 </button>
             </div>
 
@@ -40,44 +40,54 @@
                 <div id="loader" class="loader hidden"></div>
                 <div id="result-content" class="hidden">
                     <div class="report-header">
-                        <h3 data-key="report_title"><i class="fa-solid fa-file-waveform"></i> Preliminary Health Report</h3>
+                        <h3><i class="fa-solid fa-file-waveform"></i> Preliminary Health Report</h3>
                         <button id="download-report-btn" class="report-download-btn hidden">
-                            <i class="fa-solid fa-download"></i> <span data-key="download_button">Download Report</span>
+                            <i class="fa-solid fa-download"></i> Download Report
                         </button>
+                    </div>
+
+                    <!-- NEW: Urgency Meter -->
+                    <div class="urgency-meter-container">
+                        <div class="urgency-meter">
+                            <div id="meter-needle" class="meter-needle"></div>
+                            <div class="meter-level meter-routine">Routine</div>
+                            <div class="meter-level meter-urgent">Urgent</div>
+                            <div class="meter-level meter-emergency">Emergency</div>
+                        </div>
                     </div>
                     
                     <div class="result-item">
-                        <strong data-key="triage_level">Triage Level:</strong>
+                        <strong>Triage Level:</strong>
                         <span id="triage-category" class="category-badge"></span>
                     </div>
 
                     <div id="keywords-section" class="result-item hidden">
-                        <strong data-key="keywords_title">Identified Keywords:</strong>
+                        <strong>Identified Keywords:</strong>
                         <div id="keywords-container" class="keywords-container"></div>
                     </div>
 
                     <div class="explanation-group">
                         <div class="explanation-item">
-                            <h4 class="explanation-title info"><i class="fa-solid fa-circle-info"></i> <span data-key="explanation_title">Explanation</span></h4>
+                            <h4 class="explanation-title info"><i class="fa-solid fa-circle-info"></i> Explanation</h4>
                             <p id="explanation-text"></p>
                         </div>
                         <div id="next-steps-section" class="explanation-item">
-                            <h4 class="explanation-title action"><i class="fa-solid fa-person-walking-arrow-right"></i> <span data-key="next_steps_title">Next Steps</span></h4>
+                            <h4 class="explanation-title action"><i class="fa-solid fa-person-walking-arrow-right"></i> Next Steps</h4>
                             <p id="next-steps-text"></p>
                         </div>
                         <div id="home-care-section" class="explanation-item hidden">
-                            <h4 class="explanation-title success"><i class="fa-solid fa-house-medical"></i> <span data-key="home_care_title">Home Care Suggestions</span></h4>
+                            <h4 class="explanation-title success"><i class="fa-solid fa-house-medical"></i> Home Care Suggestions</h4>
                             <p id="home-care-text"></p>
                         </div>
                         <div id="worry-section" class="explanation-item">
-                            <h4 class="explanation-title warning"><i class="fa-solid fa-triangle-exclamation"></i> <span data-key="worry_title">When to Seek Immediate Help</span></h4>
+                            <h4 class="explanation-title warning"><i class="fa-solid fa-triangle-exclamation"></i> When to Seek Immediate Help</h4>
                             <p id="worry-text"></p>
                         </div>
                     </div>
 
                     <div id="action-buttons" class="action-buttons"></div>
                     <div id="health-hub" class="health-hub">
-                        <h4 data-key="hub_title"><i class="fa-solid fa-house-medical-circle-check"></i> Indian Health Resources Hub</h4>
+                        <h4><i class="fa-solid fa-house-medical-circle-check"></i> Indian Health Resources Hub</h4>
                         <div id="hub-cards" class="hub-cards"></div>
                     </div>
                 </div>
@@ -95,33 +105,33 @@
                 <div id="progress-bar-fill" class="progress-bar-fill"></div>
             </div>
             <div id="modal-step-1" class="modal-step">
-                <h3 data-key="modal_step1_title">Step 1: Basic Information</h3>
+                <h3>Step 1: Basic Information</h3>
                 <div class="form-grid">
-                    <div class="form-group"><label for="age" data-key="age_label">Age</label><input type="number" id="age" min="1" max="120"></div>
-                    <div class="form-group"><label for="gender" data-key="gender_label">Gender</label><select id="gender"><option value="male" data-key="gender_male">Male</option><option value="female" data-key="gender_female">Female</option><option value="other" data-key="gender_other">Other</option></select></div>
-                    <div class="form-group"><label for="height" data-key="height_label">Height (cm)</label><input type="number" id="height" min="50" max="250"></div>
-                    <div class="form-group"><label for="weight" data-key="weight_label">Weight (kg)</label><input type="number" id="weight" min="1" max="300"></div>
+                    <div class="form-group"><label for="age">Age</label><input type="number" id="age" min="1" max="120"></div>
+                    <div class="form-group"><label for="gender">Gender</label><select id="gender"><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+                    <div class="form-group"><label for="height">Height (cm)</label><input type="number" id="height" min="50" max="250"></div>
+                    <div class="form-group"><label for="weight">Weight (kg)</label><input type="number" id="weight" min="1" max="300"></div>
                 </div>
-                <div class="modal-nav"><button id="next-step-1" class="modal-btn-next" data-key="next_button">Next <i class="fa-solid fa-angle-right"></i></button></div>
+                <div class="modal-nav"><button id="next-step-1" class="modal-btn-next">Next <i class="fa-solid fa-angle-right"></i></button></div>
             </div>
 
             <div id="modal-step-2" class="modal-step hidden">
-                <h3 data-key="modal_step2_title">Step 2: Medical History</h3>
-                <p data-key="modal_step2_subtitle">Select any pre-existing conditions.</p>
+                <h3>Step 2: Medical History</h3>
+                <p>Select any pre-existing conditions.</p>
                 <div class="checkbox-grid">
-                    <label><input type="checkbox" name="history" value="hypertension"> <span data-key="history_hyper">Hypertension</span></label>
-                    <label><input type="checkbox" name="history" value="diabetes"> <span data-key="history_diab">Diabetes</span></label>
-                    <label><input type="checkbox" name="history" value="asthma"> <span data-key="history_asthma">Asthma</span></label>
-                    <label><input type="checkbox" name="history" value="heart_disease"> <span data-key="history_heart">Heart Disease</span></label>
-                    <label><input type="checkbox" name="history" value="none"> <span data-key="history_none">None of the above</span></label>
+                    <label><input type="checkbox" name="history" value="hypertension"> Hypertension</label>
+                    <label><input type="checkbox" name="history" value="diabetes"> Diabetes</label>
+                    <label><input type="checkbox" name="history" value="asthma"> Asthma</label>
+                    <label><input type="checkbox" name="history" value="heart_disease"> Heart Disease</label>
+                    <label><input type="checkbox" name="history" value="none"> None of the above</label>
                 </div>
-                <div class="modal-nav"><button class="modal-btn-back" data-key="back_button"><i class="fa-solid fa-angle-left"></i> Back</button><button id="next-step-2" class="modal-btn-next" data-key="next_button">Next <i class="fa-solid fa-angle-right"></i></button></div>
+                <div class="modal-nav"><button class="modal-btn-back"><i class="fa-solid fa-angle-left"></i> Back</button><button id="next-step-2" class="modal-btn-next">Next <i class="fa-solid fa-angle-right"></i></button></div>
             </div>
 
             <div id="modal-step-3" class="modal-step hidden">
-                <h3 data-key="modal_step3_title">Step 3: Describe Your Symptoms</h3>
-                <textarea id="symptoms-input" rows="8" data-key="symptoms_placeholder_modal" placeholder="Start with your main complaint..."></textarea>
-                <div class="modal-nav"><button class="modal-btn-back" data-key="back_button"><i class="fa-solid fa-angle-left"></i> Back</button><button id="submit-triage" class="modal-btn-submit"><i class="fa-solid fa-magnifying-glass"></i> <span data-key="analyze_button_modal">Analyze Symptoms</span></button></div>
+                <h3>Step 3: Describe Your Symptoms</h3>
+                <textarea id="symptoms-input" rows="8" placeholder="Start with your main complaint... For example: 'I have a sharp pain in my chest and feel dizzy.'"></textarea>
+                <div class="modal-nav"><button class="modal-btn-back"><i class="fa-solid fa-angle-left"></i> Back</button><button id="submit-triage" class="modal-btn-submit"><i class="fa-solid fa-magnifying-glass"></i> Analyze Symptoms</button></div>
             </div>
             <button id="close-modal" class="modal-close-btn">×</button>
         </div>

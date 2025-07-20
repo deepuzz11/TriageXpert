@@ -22,6 +22,12 @@ body {
     margin: 0;
     line-height: 1.6;
 }
+.section-subtitle {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: -30px auto 40px auto;
+}
 
 /* --- Navigation Bar --- */
 .navbar {
@@ -70,7 +76,7 @@ body {
 }
 .nav-button-primary:hover { background-color: var(--primary-hover); }
 
-/* --- Hero Section (Landing Page) --- */
+/* --- Hero Section --- */
 .hero {
     display: flex;
     align-items: center;
@@ -114,11 +120,18 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* --- Features & About Sections (Landing Page) --- */
-.features-section, .about-section { padding: 80px 20px; text-align: center; }
-.features-section { background: var(--white-bg); }
-.about-section { background: var(--light-bg); }
-.features-section h2, .about-section h2 { font-size: 2.5em; margin-bottom: 50px; color: var(--text-primary); }
+/* --- Features & About Sections --- */
+.features-section, .about-section, .health-tools-section, .preventive-hub-section {
+    padding: 80px 20px;
+    text-align: center;
+}
+.features-section, .preventive-hub-section { background: var(--white-bg); }
+.about-section, .health-tools-section { background: var(--light-bg); }
+.features-section h2, .about-section h2, .health-tools-section h2, .preventive-hub-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    color: var(--text-primary);
+}
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; text-align: left; }
 .feature-card { background: var(--white-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; }
 .feature-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
@@ -126,13 +139,56 @@ body {
 .feature-card h3 { margin-bottom: 10px; }
 .about-container { max-width: 800px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary); }
 
+/* --- NEW: Health Tools (BMI Calculator) --- */
+.bmi-calculator {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--white-bg);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    text-align: left;
+}
+.bmi-calculator h3 { text-align: center; color: var(--primary-color); }
+.bmi-inputs { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
+.bmi-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    height: 45px; /* Align with inputs */
+}
+.bmi-button:hover { background-color: var(--primary-hover); }
+.bmi-result-container {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #eef5fa;
+    border-left: 5px solid var(--primary-color);
+    border-radius: 5px;
+}
+.bmi-result-container h4 { margin: 0 0 5px 0; }
+.bmi-result-container p { margin: 0; }
+
+/* --- NEW: Preventive Hub Section --- */
+.preventive-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; text-align: left; }
+.preventive-card {
+    background: var(--light-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--hub-color);
+}
+.preventive-card i { font-size: 2.5em; color: var(--hub-color); margin-bottom: 15px; }
+.preventive-card h3 { color: var(--text-primary); margin-bottom: 10px; }
+
 /* --- Tool Page --- */
 .tool-page-body { background-color: var(--light-bg); }
 .tool-container { max-width: 900px; margin: 40px auto; padding: 40px; background: var(--white-bg); border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
-.tool-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
-.tool-header .header-content { text-align: left; }
-.language-switcher { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; }
-.language-switcher select { border: none; background: transparent; font-size: 1em; cursor: pointer; }
+.tool-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; text-align: left; }
 .start-section { text-align: center; padding: 50px 0; }
 
 /* --- Modal --- */
@@ -158,10 +214,44 @@ body {
 .modal-btn-next:hover, .modal-btn-submit:hover { background-color: var(--primary-hover); }
 
 /* --- Results Section --- */
-.results-section { padding: 30px; }
+.results-section { padding-top: 30px; }
 .report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .report-download-btn { background: var(--routine-color); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; }
 .report-download-btn:hover { background-color: #1a7d36; }
+
+/* NEW: Urgency Meter Styles */
+.urgency-meter-container { padding: 20px 0; margin-bottom: 20px; }
+.urgency-meter {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to right, var(--routine-color), var(--urgent-color), var(--emergency-color));
+    border-radius: 10px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+.meter-level { font-size: 0.8em; font-weight: 500; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+.meter-needle {
+    position: absolute;
+    bottom: -5px;
+    left: 15%; /* Default position */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid var(--text-primary);
+    transform: translateX(-50%);
+    transition: left 0.8s ease-in-out;
+}
+/* Urgency Meter Needle Positions */
+.meter-needle.routine { left: 15%; }
+.meter-needle.urgent { left: 50%; }
+.meter-needle.emergency { left: 85%; }
+
 .result-item { margin-bottom: 20px; }
 .result-item strong { color: var(--text-primary); }
 .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
@@ -203,7 +293,10 @@ footer { text-align: center; padding: 30px; background: #343a40; color: #f8f9fa;
     .tool-header { flex-direction: column; align-items: stretch; gap: 20px; }
 }
 @media (max-width: 768px) {
-    .nav-menu { display: none; } /* Simpler nav on mobile */
+    /* Simple hamburger menu could be added here later */
+    .nav-menu { display: none; }
     .hero-content h1 { font-size: 2.2em; }
     .form-grid { grid-template-columns: 1fr; }
+    .bmi-inputs { flex-direction: column; align-items: stretch; }
+    .bmi-button { width: 100%; }
 }

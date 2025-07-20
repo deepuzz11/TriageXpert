@@ -65,6 +65,7 @@ def analyze_symptom_details(symptoms: str) -> Dict[str, Any]:
 
     if nlp_spacy:
         doc = nlp_spacy(symptoms.lower())
+        # Use noun chunks to get more meaningful keywords (e.g., "stomach ache" instead of "stomach", "ache")
         for chunk in doc.noun_chunks:
             clean_chunk = re.sub(r'\b(a|an|the|my|his|her)\b', '', chunk.text).strip()
             if len(clean_chunk) > 2:
@@ -86,13 +87,15 @@ def classify_symptoms_bert(symptoms: str) -> Dict[str, Any]:
         logits = outputs.logits
     probabilities = torch.nn.functional.softmax(logits, dim=-1)
     confidence, predicted_class_id = torch.max(probabilities, dim=-1)
+    
+    # Mapping model output (0, 1, 2) to our defined categories
     category_map = {0: "Routine", 1: "Urgent", 2: "Emergency"}
-    category = category_map.get(predicted_class_id.item(), "Unknown")
+    category = category_map.get(predicted_class_id.item(), "Routine") # Default to Routine
     return {"category": category, "confidence": confidence.item()}
 
 
 def classify_symptoms_rule_based(symptoms: str) -> Dict[str, Any]:
-    """ Fallback rule-based triage classification. """
+    """ Fallback rule-based triage classification if the BERT model fails to load. """
     symptoms_lower = symptoms.lower()
     if any(keyword in symptoms_lower for keyword in EMERGENCY_KEYWORDS):
         return {"category": "Emergency", "confidence": 0.95}
@@ -104,6 +107,7 @@ def classify_symptoms_rule_based(symptoms: str) -> Dict[str, Any]:
 def triage_symptoms(symptoms: str) -> Dict[str, Any]:
     """
     Main triage function combining classification with detailed analysis.
+    It tries to use the advanced AI model first, and if not available, uses the simpler rule-based system.
     """
     if MODEL_AVAILABLE:
         try:
@@ -116,4 +120,5 @@ def triage_symptoms(symptoms: str) -> Dict[str, Any]:
 
     symptom_details = analyze_symptom_details(symptoms)
     
+    # Combine results from classification and keyword extraction
     return {**classification_result, **symptom_details}

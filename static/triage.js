@@ -4,7 +4,7 @@
 window.jsPDF = window.jspdf.jsPDF;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements (languageSelector is REMOVED) ---
+    // --- DOM Elements ---
     const allElements = {
         startBtn: document.getElementById('startBtn'),
         startSection: document.getElementById('start-section'),
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loader: document.getElementById('loader'),
         resultContent: document.getElementById('result-content'),
         downloadReportBtn: document.getElementById('download-report-btn'),
+        meterNeedle: document.getElementById('meter-needle'), // New
         triageCategorySpan: document.getElementById('triage-category'),
         keywordsSection: document.getElementById('keywords-section'),
         keywordsContainer: document.getElementById('keywords-container'),
@@ -42,8 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentStep = 1;
     let triageData = {}; // Stores combined user input and API response for PDF
-
-    // The entire 'translations' object and 'changeLanguage' function have been REMOVED.
 
     // --- Modal Navigation & UI Logic ---
     const showModal = () => { navigateStep(1); allElements.modal.classList.remove('hidden'); };
@@ -71,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             weight: parseFloat(allElements.weightInput.value),
             history: Array.from(allElements.historyCheckboxes).filter(cb => cb.checked && cb.value !== 'none').map(cb => cb.value),
             symptoms: allElements.symptomsInput.value.trim(),
-            // The 'language' key is REMOVED from the payload
         };
         
         if (!formData.symptoms || !formData.age || !formData.height || !formData.weight) {
@@ -94,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'An unknown server error occurred.');
             
+            // Store combined data for PDF generation
             triageData = { ...formData, ...data };
             displayResults(data);
 
@@ -107,10 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- PDF Report Generation ---
     const generatePDF = () => {
-        // This function remains the same as it uses the data, not language settings.
-        const doc = new jsPDF();
-        const { age, gender, height, weight, history, symptoms } = triageData;
-        const { triage_category, keywords, explanation_details } = triageData;
+        const doc = new window.jsPDF();
+        const { age, gender, height, weight, history, symptoms, triage_category, keywords, explanation_details } = triageData;
+        const { explanation, next_steps, when_to_worry, home_care_suggestions } = explanation_details;
         
         doc.setFont("helvetica", "bold");
         doc.setFontSize(20);
@@ -123,14 +121,58 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.setLineWidth(0.5);
         doc.line(15, 35, 195, 35);
         
-        // ... (rest of the PDF generation logic is unchanged)
+        let yPos = 45;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text("Patient Information", 15, yPos);
+        yPos += 8;
         
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        doc.text(`- Age: ${age}, Gender: ${gender}`, 20, yPos); yPos += 7;
+        doc.text(`- Vitals: ${height} cm, ${weight} kg`, 20, yPos); yPos += 7;
+        doc.text(`- Medical History: ${history.length > 0 ? history.join(', ') : 'None'}`, 20, yPos); yPos += 10;
+        
+        const splitSymptoms = doc.splitTextToSize(`- Symptoms: ${symptoms}`, 175);
+        doc.text(splitSymptoms, 20, yPos);
+        yPos += (splitSymptoms.length * 5) + 5;
+
+        doc.line(15, yPos, 195, yPos); yPos += 10;
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text("AI-Powered Analysis", 15, yPos); yPos += 8;
+
+        doc.setFont("helvetica", "bold");
+        doc.text(`Triage Level: ${triage_category}`, 20, yPos); yPos += 7;
+        
+        doc.setFont("helvetica", "normal");
+        const splitExplanation = doc.splitTextToSize(`Explanation: ${explanation}`, 175);
+        doc.text(splitExplanation, 20, yPos);
+        yPos += (splitExplanation.length * 5) + 7;
+
+        const splitNextSteps = doc.splitTextToSize(`Next Steps: ${next_steps}`, 175);
+        doc.text(splitNextSteps, 20, yPos);
+        yPos += (splitNextSteps.length * 5) + 7;
+        
+        const splitWorry = doc.splitTextToSize(`When to Worry: ${when_to_worry}`, 175);
+        doc.text(splitWorry, 20, yPos);
+        yPos += (splitWorry.length * 5) + 7;
+        
+        if (home_care_suggestions) {
+            const splitHomeCare = doc.splitTextToSize(`Home Care: ${home_care_suggestions}`, 175);
+            doc.text(splitHomeCare, 20, yPos);
+            yPos += (splitHomeCare.length * 5) + 7;
+        }
+
         doc.save(`TriageXpert_Report_${new Date().toISOString().split('T')[0]}.pdf`);
     };
 
     // --- UI Display & Helper Functions ---
     const displayResults = (data) => {
-        // This function is now simpler as it doesn't need to worry about language
+        // NEW: Update urgency meter
+        allElements.meterNeedle.className = `meter-needle ${data.triage_category.toLowerCase()}`;
+
         allElements.triageCategorySpan.textContent = data.triage_category;
         allElements.triageCategorySpan.className = 'category-badge';
         allElements.triageCategorySpan.classList.add(data.triage_category);
@@ -165,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         allElements.resultContent.classList.toggle('hidden', isLoading);
     };
     
-    // MODIFIED: This function now uses hardcoded English text
     const generateActionButtons = (category) => {
         allElements.actionButtonsContainer.innerHTML = '';
         let emergencyBtn = `<a href="tel:112" class="action-btn Emergency"><i class="fa-solid fa-phone-volume"></i> Call National Emergency (112)</a>`;
@@ -177,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else allElements.actionButtonsContainer.innerHTML = findHospitalBtn;
     };
     
-    // MODIFIED: This function now uses hardcoded English text
     const generateHealthHub = () => {
         allElements.healthHubContainer.innerHTML = '';
         const resources = [
@@ -193,8 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayError = (message) => { allElements.errorMessage.textContent = message; allElements.errorContainer.classList.remove('hidden'); };
     const hideError = () => allElements.errorContainer.classList.add('hidden');
     
-    // --- Initial Setup ---
+    // --- Event Listeners ---
     allElements.submitBtn.addEventListener('click', handleTriageSubmit);
     allElements.downloadReportBtn.addEventListener('click', generatePDF);
-    // The language selector event listener has been REMOVED.
 });

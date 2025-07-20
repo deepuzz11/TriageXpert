@@ -13,6 +13,8 @@
             <a href="/" class="nav-brand"><i class="fa-solid fa-laptop-medical"></i> TriageXpert</a>
             <ul class="nav-menu">
                 <li><a href="#features">Features</a></li>
+                <li><a href="#health-tools">Health Tools</a></li>
+                <li><a href="#preventive-hub">Preventive Hub</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="/triage-tool" class="nav-button-primary">Launch Tool</a></li>
             </ul>
@@ -27,6 +29,7 @@
                 <a href="/triage-tool" class="hero-button">Start Your Pre-Screening <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="hero-image">
+                <!-- Image is served from the 'static' folder -->
                 <img src="hero-image.png" alt="AI-powered medical pre-screening interface">
             </div>
         </section>
@@ -35,19 +38,68 @@
             <h2>Why Use TriageXpert?</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <i class="fa-solid fa-language"></i>
-                    <h3>Multi-Language Support</h3>
-                    <p>Access the tool in English, Hindi, Tamil, Telugu, Malayalam, and Kannada.</p>
+                    <i class="fa-solid fa-bolt"></i>
+                    <h3>Instant Analysis</h3>
+                    <p>Get immediate, AI-driven feedback on your symptoms, available 24/7.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fa-solid fa-brain"></i>
                     <h3>Context-Aware AI</h3>
-                    <p>Our analysis considers your age, medical history, and vitals for a more personalized report.</p>
+                    <p>Our analysis considers your age, medical history, and vitals for a personalized report.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fa-solid fa-file-pdf"></i>
                     <h3>Downloadable Reports</h3>
                     <p>Save a PDF of your pre-screening report to share with your healthcare provider.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Health Tools Section -->
+        <section id="health-tools" class="health-tools-section">
+            <div class="section-container">
+                <h2>Instant Health Tools</h2>
+                <p class="section-subtitle">Quick calculators to help you stay informed about your health.</p>
+                <div class="bmi-calculator">
+                    <h3><i class="fa-solid fa-calculator"></i> Body Mass Index (BMI) Calculator</h3>
+                    <div class="bmi-inputs">
+                        <div class="form-group">
+                            <label for="bmi-height">Height (cm)</label>
+                            <input type="number" id="bmi-height" placeholder="e.g., 175">
+                        </div>
+                        <div class="form-group">
+                            <label for="bmi-weight">Weight (kg)</label>
+                            <input type="number" id="bmi-weight" placeholder="e.g., 70">
+                        </div>
+                        <button id="calculate-bmi-btn" class="bmi-button">Calculate</button>
+                    </div>
+                    <div id="bmi-result" class="bmi-result-container hidden">
+                        <h4>Your BMI: <span id="bmi-value"></span></h4>
+                        <p id="bmi-category"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Preventive Health Hub Section -->
+        <section id="preventive-hub" class="preventive-hub-section">
+            <h2>Preventive Health Hub</h2>
+            <p class="section-subtitle">Proactive steps for a healthier life in India.</p>
+            <div class="preventive-grid">
+                <div class="preventive-card">
+                    <i class="fa-solid fa-cloud-sun-rain"></i>
+                    <h3>Monsoon Health</h3>
+                    <p>Tips to prevent common monsoon-related illnesses like Dengue, Malaria, and water-borne infections. Stay dry and drink boiled water.</p>
+                </div>
+                <div class="preventive-card">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <h3>Heart Health</h3>
+                    <p>Manage blood pressure and cholesterol through a balanced diet, regular exercise, and stress reduction to protect your heart.</p>
+                </div>
+                <div class="preventive-card">
+                    <i class="fa-solid fa-staff-snake"></i>
+                    <h3>Diabetes Prevention</h3>
+                    <p>Focus on a low-glycemic diet, maintain a healthy weight, and engage in regular physical activity to reduce your risk.</p>
                 </div>
             </div>
         </section>
@@ -64,6 +116,7 @@
         <p><strong><i class="fa-solid fa-shield-halved"></i> Disclaimer:</strong> TriageXpert is a proof-of-concept and not a medical device. Always consult a qualified health provider for any medical concerns.</p>
     </footer>
 
+    <!-- This script is for the index page only (e.g., BMI calculator) -->
     <script src="script.js"></script>
 </body>
 </html>
