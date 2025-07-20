@@ -41,8 +41,9 @@ def generate_explanation_and_suggestion(symptoms: str, category: str) -> str:
         "top_k": 1,
         "max_output_tokens": 2048,
     }
-    model = genai.GenerativeModel(model_name="gemini-1.0-pro",
-                                  generation_config=generation_config)
+
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest",
+                              generation_config=generation_config)
 
     prompt_parts = [
         "You are a helpful medical assistant. Based on the following patient symptoms and the assigned triage category, provide a brief, easy-to-understand explanation for the triage level and a clear suggestion for the next steps. Do not provide a diagnosis. Frame the response for a non-medical person.",
