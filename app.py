@@ -6,6 +6,7 @@ import nlp
 import gemini
 from functools import lru_cache
 
+# The Flask constructor is correct. It automatically knows to look for a 'templates' folder.
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 # The Main Caching Function - now takes a tuple of history items to be cacheable
@@ -51,13 +52,19 @@ def get_triage_and_explanation(symptoms: str, language: str, age: int, gender: s
 @app.route('/')
 def home():
     """Serves the main landing page."""
+    # CORRECTED: Just 'index.html'. Flask looks in the 'templates' folder automatically.
     return render_template('index.html')
 
 @app.route('/triage-tool')
 def triage_page():
     """Serves the dedicated triage tool page."""
+    # CORRECTED: Just 'triage.html'.
     return render_template('triage.html')
 
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok", "message": "TriageXpert API is running."}), 200
+    
 # --- API Endpoint ---
 
 @app.route('/triage', methods=['POST'])
