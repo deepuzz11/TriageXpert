@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TriageXpert - AI-Powered Symptom Triage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TriageXpert 🩺</h1>
+            <p>Your AI-Powered Symptom Triage Assistant</p>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <label for="symptoms">Please describe your symptoms:</label>
+                <textarea id="symptoms" rows="8" placeholder="e.g., 'I have a high fever, a severe headache, and I feel dizzy.'"></textarea>
+                <button id="submitBtn">Triage Symptoms</button>
+            </div>
+
+            <div id="results-container" class="hidden">
+                <h2>Triage Result</h2>
+                <div id="loader" class="loader hidden"></div>
+                <div id="result-content">
+                    <div class="result-item">
+                        <strong>Triage Category:</strong>
+                        <span id="triage-category" class="category-badge"></span>
+                    </div>
+                    <div class="result-item">
+                        <strong>Confidence:</strong> <span id="confidence"></span>
+                    </div>
+                    <div class="result-item explanation">
+                        <strong>Explanation & Suggestion:</strong>
+                        <p id="explanation"></p>
+                    </div>
+                </div>
+            </div>
+            <div id="error-container" class="hidden">
+                <p id="error-message"></p>
+            </div>
+        </main>
+
+        <footer>
+            <p><strong>Disclaimer:</strong> TriageXpert is an AI demonstration and not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

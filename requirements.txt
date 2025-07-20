@@ -1,4 +1,4 @@
-flask
-transformers
-torch
-threadsafe-tkinter
+Flask>=2.0
+transformers>=4.0
+torch>=1.8
+google-generativeai>=0.3

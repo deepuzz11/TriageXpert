@@ -1,25 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
     margin: 0;
-    padding: 50px;
-}
-.container {
-    background: white;
     padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
+
+.container {
+    max-width: 700px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #1a73e8;
+    margin: 0;
+}
+
+header p {
+    color: #5f6368;
+    font-size: 1.1em;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
 textarea {
-    width: 300px;
-    height: 100px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    resize: vertical;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
+
+textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
 button {
-    margin-top: 10px;
-    padding: 10px 20px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
 }
-#result {
-    margin-top: 20px;
-    font-weight: bold;
+
+button:hover {
+    background-color: #1558b3;
+}
+
+button:disabled {
+    background-color: #9ac2f7;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#results-container {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#results-container h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #1a73e8;
+}
+
+.result-item {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.result-item strong {
+    color: #333;
+}
+
+.explanation p {
+    background-color: #e8f0fe;
+    border-left: 4px solid #1a73e8;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 5px;
+    white-space: pre-wrap; /* Preserves line breaks from Gemini */
+    line-height: 1.6;
+}
+
+.category-badge {
+    padding: 5px 12px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.Emergency { background-color: #d93025; } /* Red */
+.Urgent { background-color: #f29900; } /* Orange */
+.Routine { background-color: #1e8e3e; } /* Green */
+
+#error-container {
+    background-color: #fce8e6;
+    border: 1px solid #d93025;
+    color: #d93025;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #1a73e8;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #5f6368;
 }
