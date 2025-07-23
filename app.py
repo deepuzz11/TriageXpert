@@ -103,6 +103,124 @@ def handle_triage():
         print(f"An unexpected error occurred in /triage endpoint: {e}")
         return jsonify({"error": "An internal server error occurred while analyzing symptoms."}), 500
 
+# API endpoint remains unchanged
+@app.route('/api/health-tips/<category>')
+def get_health_tips(category):
+    health_data = {
+        'monsoon': {
+            'sections': [
+                {
+                    'name': 'Dengue Prevention',
+                    'icon': '🦟',
+                    'tips': [
+                        'Remove stagnant water from containers and plant pots',
+                        'Use mosquito nets during dawn and dusk hours',
+                        'Wear long-sleeved clothing when outdoors',
+                        'Apply mosquito repellent on exposed skin',
+                        'Seek medical help for high fever with body aches'
+                    ]
+                },
+                {
+                    'name': 'Malaria Prevention',
+                    'icon': '🛏️',
+                    'tips': [
+                        'Sleep under insecticide-treated bed nets',
+                        'Ensure proper drainage around living areas',
+                        'Use approved mosquito repellents regularly',
+                        'Take antimalarial medication for high-risk areas',
+                        'Get tested immediately for persistent fever'
+                    ]
+                },
+                {
+                    'name': 'Water-borne Disease Prevention',
+                    'icon': '💧',
+                    'tips': [
+                        'Drink only boiled or properly purified water',
+                        'Avoid street food during monsoon season',
+                        'Wash hands with soap for 20 seconds frequently',
+                        'Store water in clean, covered containers',
+                        'Use ORS solution for diarrhea treatment'
+                    ]
+                }
+            ]
+        },
+        'heart': {
+            'sections': [
+                {
+                    'name': 'Blood Pressure Control',
+                    'icon': '❤️',
+                    'tips': [
+                        'Limit salt intake to maximum 5 grams daily',
+                        'Include potassium-rich foods like bananas',
+                        'Practice yoga and meditation for 30 minutes',
+                        'Monitor blood pressure regularly at home',
+                        'Maintain healthy BMI between 18.5-24.9'
+                    ]
+                },
+                {
+                    'name': 'Cholesterol Management',
+                    'icon': '🥗',
+                    'tips': [
+                        'Cook with healthy oils like olive or mustard oil',
+                        'Eat fiber-rich foods including oats and lentils',
+                        'Include fish in diet twice weekly',
+                        'Avoid trans fats and processed foods',
+                        'Get annual lipid profile testing after age 30'
+                    ]
+                },
+                {
+                    'name': 'Exercise & Stress Relief',
+                    'icon': '🧘',
+                    'tips': [
+                        'Walk briskly for minimum 30 minutes daily',
+                        'Practice pranayama breathing exercises',
+                        'Engage in swimming or cycling regularly',
+                        'Maintain proper work-life balance',
+                        'Get 7-8 hours of quality sleep nightly'
+                    ]
+                }
+            ]
+        },
+        'diabetes': {
+            'sections': [
+                {
+                    'name': 'Low-Glycemic Nutrition',
+                    'icon': '🌾',
+                    'tips': [
+                        'Choose whole grains: brown rice, ragi, quinoa',
+                        'Fill half your plate with non-starchy vegetables',
+                        'Select low-GI fruits like apples and oranges',
+                        'Eliminate sugary drinks and processed snacks',
+                        'Practice portion control with smaller meals'
+                    ]
+                },
+                {
+                    'name': 'Weight Management',
+                    'icon': '⚖️',
+                    'tips': [
+                        'Target BMI between 18.5-22.9 for Indians',
+                        'Monitor waist size: men <90cm, women <80cm',
+                        'Practice mindful eating and slow chewing',
+                        'Drink 8-10 glasses of water daily',
+                        'Prioritize 7-8 hours of restful sleep'
+                    ]
+                },
+                {
+                    'name': 'Physical Activity',
+                    'icon': '🏃',
+                    'tips': [
+                        'Exercise minimum 150 minutes weekly',
+                        'Combine aerobic and strength training',
+                        'Take stairs instead of elevators',
+                        'Practice traditional surya namaskara',
+                        'Monitor blood glucose if at high risk'
+                    ]
+                }
+            ]
+        }
+    }
+    return jsonify(health_data.get(category, {}))
+
 if __name__ == '__main__':
     # Runs the Flask app in debug mode for development
     app.run(debug=True, port=5000)

@@ -36,7 +36,7 @@
                 <section id="about" class="about-section">
             <div class="about-container">
                 <h2>About This Project</h2>
-                <p>TriageXpert is an advanced demonstration of how AI can assist in the initial stages of healthcare. It uses Natural Language Processing and Large Language Models (like Google's Gemini) to analyze symptoms and provide structured, helpful information. This tool is not a substitute for a doctor but aims to empower users with better information to seek appropriate care in a timely manner.</p>
+                <p>TriageXpert is an advanced demonstration of how AI can assist in the initial stages of healthcare. It uses Natural Language Processing and Large Language Models to analyze symptoms and provide structured, helpful information. This tool is not a substitute for a doctor but aims to empower users with better information to seek appropriate care in a timely manner.</p>
             </div>
         </section>
         <section id="features" class="features-section">
@@ -87,27 +87,61 @@
         </section>
 
         <!-- NEW: Preventive Health Hub Section -->
-        <section id="preventive-hub" class="preventive-hub-section">
-            <h2>Preventive Health Hub</h2>
-            <p class="section-subtitle">Proactive steps for a healthier life in India.</p>
-            <div class="preventive-grid">
-                <div class="preventive-card">
-                    <i class="fa-solid fa-cloud-sun-rain"></i>
+        <section class="preventive-health-hub" style="margin-top:2rem;">
+            <header class="health-header">
+                <h2>Preventive Health Hub</h2>
+                <p class="health-subtitle">Proactive steps for a healthier life in India.</p>
+            </header>
+
+            <div class="health-categories">
+                <!-- Monsoon Health Section -->
+                <div class="health-category" data-category="monsoon">
+                <div class="category-card" onclick="toggleSection('monsoon')">
+                    <span class="category-icon">🌧️</span>
+                    <div class="card-content">
                     <h3>Monsoon Health</h3>
                     <p>Tips to prevent common monsoon-related illnesses like Dengue, Malaria, and water-borne infections. Stay dry and drink boiled water.</p>
+                    <button class="toggle-btn" id="monsoon-btn">Learn More ▼</button>
+                    </div>
                 </div>
-                <div class="preventive-card">
-                    <i class="fa-solid fa-heart-pulse"></i>
+                <div class="health-details" id="monsoon-details" style="display: none;">
+                    <!-- Dynamic content will load here -->
+                </div>
+                </div>
+
+                <!-- Heart Health Section -->
+                <div class="health-category" data-category="heart">
+                <div class="category-card" onclick="toggleSection('heart')">
+                    <span class="category-icon">❤️</span>
+                    <div class="card-content">
                     <h3>Heart Health</h3>
                     <p>Manage blood pressure and cholesterol through a balanced diet, regular exercise, and stress reduction to protect your heart.</p>
+                    <button class="toggle-btn" id="heart-btn">Learn More ▼</button>
+                    </div>
                 </div>
-                <div class="preventive-card">
-                    <i class="fa-solid fa-staff-snake"></i>
+                <div class="health-details" id="heart-details" style="display: none;">
+                    <!-- Dynamic content will load here -->
+                </div>
+                </div>
+
+                <!-- Diabetes Prevention Section -->
+                <div class="health-category" data-category="diabetes">
+                <div class="category-card" onclick="toggleSection('diabetes')">
+                    <span class="category-icon">🩺</span>
+                    <div class="card-content">
                     <h3>Diabetes Prevention</h3>
                     <p>Focus on a low-glycemic diet, maintain a healthy weight, and engage in regular physical activity to reduce your risk.</p>
+                    <button class="toggle-btn" id="diabetes-btn">Learn More ▼</button>
+                    </div>
+                </div>
+                <div class="health-details" id="diabetes-details" style="display: none;">
+                    <!-- Dynamic content will load here -->
+                </div>
                 </div>
             </div>
-        </section>
+            </section>
+
+
     </main>
 
     <footer>
@@ -115,6 +149,8 @@
     </footer>
 
     <!-- This script is for the index page only (e.g., BMI calculator) -->
-    <script src="script.js"></script>
+     <!-- Add this before closing </body> tag -->
+
 </body>
+
 </html>
