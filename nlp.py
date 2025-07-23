@@ -1,124 +1,136 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from typing import Dict, Any, List
-import spacy
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import nltk
 import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+import spacy
 
-# --- Model and Analyzer Loading ---
-
-# 1. ClinicalBERT Model for Triage Classification
-MODEL_NAME = "medicalai/ClinicalBERT-v1"
+# Download required NLTK data
 try:
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=3)
-    model.eval()
-    print("ClinicalBERT model loaded successfully.")
-    MODEL_AVAILABLE = True
-except Exception as e:
-    print(f"Warning: Could not load ClinicalBERT model. Using rule-based fallback. Error: {e}")
-    MODEL_AVAILABLE = False
-    tokenizer = None
-    model = None
+    nltk.download('punkt', quiet=True)
+    nltk.download('stopwords', quiet=True)
+except:
+    pass
 
-# 2. spaCy Model for NLP tasks like Named Entity Recognition (Keywords)
+# Load spacy model
 try:
-    nlp_spacy = spacy.load("en_core_web_sm")
-    print("spaCy model loaded successfully.")
+    nlp = spacy.load("en_core_web_sm")
 except OSError:
-    print("Warning: spaCy 'en_core_web_sm' model not found. Keyword extraction will be limited.")
-    nlp_spacy = None
+    print("spaCy model not found. Using basic NLP processing.")
+    nlp = None
 
-# 3. NLTK VADER for Sentiment/Intensity Analysis
-try:
-    nltk.data.find('sentiment/vader_lexicon.zip')
-    sid = SentimentIntensityAnalyzer()
-    print("NLTK VADER loaded successfully.")
-except LookupError:
-    print("NLTK 'vader_lexicon' not found, downloading now...")
-    nltk.download('vader_lexicon')
-    sid = SentimentIntensityAnalyzer()
-    print("NLTK VADER loaded successfully after download.")
-
-
-# --- Rule-Based Fallback ---
+# Medical keyword mappings for triage categories
 EMERGENCY_KEYWORDS = [
-    "chest pain", "crushing", "shortness of breath", "difficulty breathing",
-    "unconscious", "not responsive", "seizure", "stroke", "severe bleeding",
-    "head injury", "vision loss", "numbness one side", "paralysis"
+    'chest pain', 'heart attack', 'stroke', 'seizure', 'unconscious',
+    'severe bleeding', 'difficulty breathing', 'choking', 'overdose',
+    'severe burn', 'cardiac arrest', 'anaphylaxis', 'severe trauma',
+    'suicide', 'poisoning', 'severe allergic reaction'
 ]
+
 URGENT_KEYWORDS = [
-    "fever", "vomiting", "diarrhea", "abdominal pain", "migraine",
-    "bad headache", "dehydration", "sprain", "minor cut", "rash",
-    "earache", "painful urination"
+    'high fever', 'severe pain', 'persistent vomiting', 'dehydration',
+    'fracture', 'severe headache', 'abdominal pain', 'infection',
+    'wound', 'dizziness', 'fainting', 'confusion', 'severe cough',
+    'blood in urine', 'blood in stool', 'severe diarrhea'
 ]
 
+ROUTINE_KEYWORDS = [
+    'mild headache', 'common cold', 'runny nose', 'sore throat',
+    'minor cut', 'bruise', 'muscle ache', 'fatigue', 'insomnia',
+    'constipation', 'mild rash', 'seasonal allergies'
+]
 
-def analyze_symptom_details(symptoms: str) -> Dict[str, Any]:
-    """
-    Extracts key symptoms and detects intensity from the text.
-    Uses spaCy for keyword extraction and NLTK for intensity.
-    """
-    keywords = set()
-    intensity_score = 0.0
-
-    if nlp_spacy:
-        doc = nlp_spacy(symptoms.lower())
-        # Use noun chunks to get more meaningful keywords (e.g., "stomach ache" instead of "stomach", "ache")
-        for chunk in doc.noun_chunks:
-            clean_chunk = re.sub(r'\b(a|an|the|my|his|her)\b', '', chunk.text).strip()
-            if len(clean_chunk) > 2:
-                keywords.add(clean_chunk)
-
-    if sid:
-        intensity_score = sid.polarity_scores(symptoms)['compound']
-
-    return {"keywords": list(keywords), "intensity_score": intensity_score}
-
-
-def classify_symptoms_bert(symptoms: str) -> Dict[str, Any]:
-    """ Classifies symptoms using the ClinicalBERT model. """
-    if not MODEL_AVAILABLE:
-         raise EnvironmentError("ClinicalBERT model is not available.")
-    inputs = tokenizer(symptoms, return_tensors="pt", truncation=True, padding=True, max_length=512)
-    with torch.no_grad():
-        outputs = model(**inputs)
-        logits = outputs.logits
-    probabilities = torch.nn.functional.softmax(logits, dim=-1)
-    confidence, predicted_class_id = torch.max(probabilities, dim=-1)
-    
-    # Mapping model output (0, 1, 2) to our defined categories
-    category_map = {0: "Routine", 1: "Urgent", 2: "Emergency"}
-    category = category_map.get(predicted_class_id.item(), "Routine") # Default to Routine
-    return {"category": category, "confidence": confidence.item()}
-
-
-def classify_symptoms_rule_based(symptoms: str) -> Dict[str, Any]:
-    """ Fallback rule-based triage classification if the BERT model fails to load. """
-    symptoms_lower = symptoms.lower()
-    if any(keyword in symptoms_lower for keyword in EMERGENCY_KEYWORDS):
-        return {"category": "Emergency", "confidence": 0.95}
-    if any(keyword in symptoms_lower for keyword in URGENT_KEYWORDS):
-        return {"category": "Urgent", "confidence": 0.85}
-    return {"category": "Routine", "confidence": 0.75}
-
-
-def triage_symptoms(symptoms: str) -> Dict[str, Any]:
-    """
-    Main triage function combining classification with detailed analysis.
-    It tries to use the advanced AI model first, and if not available, uses the simpler rule-based system.
-    """
-    if MODEL_AVAILABLE:
+class TriageClassifier:
+    def __init__(self):
+        self.stemmer = PorterStemmer()
         try:
-            classification_result = classify_symptoms_bert(symptoms)
-        except Exception as e:
-            print(f"Error during BERT classification: {e}. Falling back to rules.")
-            classification_result = classify_symptoms_rule_based(symptoms)
-    else:
-        classification_result = classify_symptoms_rule_based(symptoms)
+            self.stop_words = set(stopwords.words('english'))
+        except:
+            self.stop_words = set()
 
-    symptom_details = analyze_symptom_details(symptoms)
+    def preprocess_text(self, text):
+        """Clean and preprocess the input text."""
+        # Convert to lowercase
+        text = text.lower()
+        
+        # Remove special characters and numbers
+        text = re.sub(r'[^a-zA-Z\s]', '', text)
+        
+        # Tokenize
+        tokens = word_tokenize(text)
+        
+        # Remove stopwords and stem
+        processed_tokens = []
+        for token in tokens:
+            if token not in self.stop_words:
+                stemmed_token = self.stemmer.stem(token)
+                processed_tokens.append(stemmed_token)
+        
+        return ' '.join(processed_tokens)
+
+    def extract_keywords(self, text):
+        """Extract medical keywords from text."""
+        text_lower = text.lower()
+        found_keywords = []
+        
+        # Check for emergency keywords
+        for keyword in EMERGENCY_KEYWORDS:
+            if keyword in text_lower:
+                found_keywords.append(keyword)
+        
+        # Check for urgent keywords
+        for keyword in URGENT_KEYWORDS:
+            if keyword in text_lower:
+                found_keywords.append(keyword)
+        
+        # Check for routine keywords
+        for keyword in ROUTINE_KEYWORDS:
+            if keyword in text_lower:
+                found_keywords.append(keyword)
+        
+        return list(set(found_keywords))  # Remove duplicates
+
+    def classify_urgency(self, text, keywords):
+        """Classify the urgency level based on keywords."""
+        emergency_count = sum(1 for kw in keywords if kw in EMERGENCY_KEYWORDS)
+        urgent_count = sum(1 for kw in keywords if kw in URGENT_KEYWORDS)
+        routine_count = sum(1 for kw in keywords if kw in ROUTINE_KEYWORDS)
+        
+        if emergency_count > 0:
+            confidence = min(0.95, 0.7 + (emergency_count * 0.1))
+            return 'Emergency', confidence
+        elif urgent_count > 0:
+            confidence = min(0.85, 0.6 + (urgent_count * 0.1))
+            return 'Urgent', confidence
+        elif routine_count > 0:
+            confidence = min(0.75, 0.5 + (routine_count * 0.1))
+            return 'Routine', confidence
+        else:
+            # Default classification based on text analysis
+            if any(word in text.lower() for word in ['severe', 'intense', 'extreme']):
+                return 'Urgent', 0.6
+            else:
+                return 'Routine', 0.5
+
+def triage_symptoms(symptoms_text):
+    """Main function to triage symptoms and return classification."""
+    classifier = TriageClassifier()
     
-    # Combine results from classification and keyword extraction
-    return {**classification_result, **symptom_details}
+    # Extract keywords
+    keywords = classifier.extract_keywords(symptoms_text)
+    
+    # Classify urgency
+    category, confidence = classifier.classify_urgency(symptoms_text, keywords)
+    
+    return {
+        'category': category,
+        'confidence': confidence,
+        'keywords': keywords,
+        'processed_text': classifier.preprocess_text(symptoms_text)
+    }
+
+# Test function
+if __name__ == "__main__":
+    test_symptoms = "I have severe chest pain and difficulty breathing"
+    result = triage_symptoms(test_symptoms)
+    print(f"Triage Result: {result}")

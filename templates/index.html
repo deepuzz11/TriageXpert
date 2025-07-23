@@ -3,154 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TriageXpert - AI Medical Pre-Screening for India</title>
-    <link rel="stylesheet" href="style.css">
+    <title>TriageXpert - AI-Powered Health Pre-Screening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-brand"><i class="fa-solid fa-laptop-medical"></i> TriageXpert</a>
+            <div class="nav-logo">
+                <h2>TriageXpert</h2>
+            </div>
             <ul class="nav-menu">
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#health-tools">Health Tools</a></li>
-                <li><a href="#preventive-hub">Preventive Hub</a></li>
-                <li><a href="/triage-tool" class="nav-button-primary">Launch Tool</a></li>
+                <li><a href="{{ url_for('home') }}" class="nav-link active">Home</a></li>
+                <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
+                <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
             </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
-    <main>
-        <section class="hero">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
             <div class="hero-content">
                 <h1>Intelligent Health Pre-Screening for India</h1>
-                <p>Our AI-powered tool provides a preliminary analysis of your symptoms, helping you understand the urgency and take the right next steps.</p>
-                <a href="/triage-tool" class="hero-button">Start Your Pre-Screening <i class="fa-solid fa-arrow-right"></i></a>
+                <p class="hero-subtitle">Our AI-powered tool provides a preliminary analysis of your symptoms, helping you understand the urgency and take the right next steps.</p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('triage_page') }}" class="hero-button primary">Start Your Pre-Screening</a>
+                    <a href="{{ url_for('health_hub') }}" class="hero-button secondary">Explore Health Hub</a>
+                </div>
             </div>
             <div class="hero-image">
-                <!-- Image is served from the 'static' folder -->
-                <img src="hero-image.png" alt="AI-powered medical pre-screening interface">
+                <img src="{{ url_for('static', filename='hero-image.png') }}" alt="AI Healthcare Illustration" />
             </div>
-        </section>
-                <section id="about" class="about-section">
-            <div class="about-container">
-                <h2>About This Project</h2>
-                <p>TriageXpert is an advanced demonstration of how AI can assist in the initial stages of healthcare. It uses Natural Language Processing and Large Language Models to analyze symptoms and provide structured, helpful information. This tool is not a substitute for a doctor but aims to empower users with better information to seek appropriate care in a timely manner.</p>
-            </div>
-        </section>
-        <section id="features" class="features-section">
-            <h2>Why Use TriageXpert?</h2>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Use TriageXpert?</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <i class="fa-solid fa-bolt"></i>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
                     <h3>Instant Analysis</h3>
-                    <p>Get immediate, AI-driven feedback on your symptoms, available 24/7.</p>
+                    <p>Get immediate, AI-driven feedback on your symptoms, available 24/7 from anywhere in India.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fa-solid fa-brain"></i>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
                     <h3>Context-Aware AI</h3>
-                    <p>Our analysis considers your age, medical history, and vitals for a personalized report.</p>
+                    <p>Our analysis considers your age, medical history, and vitals for a personalized health assessment report.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fa-solid fa-file-pdf"></i>
-                    <h3>Downloadable Reports</h3>
-                    <p>Save a PDF of your pre-screening report to share with your healthcare provider.</p>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </div>
+                    <h3>Comprehensive Reports</h3>
+                    <p>Receive detailed health reports with recommendations you can share with your healthcare provider.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h3>Privacy Protected</h3>
+                    <p>Your health data is processed securely with no permanent storage, ensuring complete privacy.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- NEW: Health Tools Section -->
-        <section id="health-tools" class="health-tools-section">
-            <div class="section-container">
-                <h2>Instant Health Tools</h2>
-                <p class="section-subtitle">Quick calculators to help you stay informed about your health.</p>
-                <div class="bmi-calculator">
+    <!-- Health Tools Section -->
+    <section class="health-tools-section">
+        <div class="container">
+            <h2 class="section-title">Instant Health Tools</h2>
+            
+            <!-- BMI Calculator -->
+            <div class="tool-card">
+                <div class="tool-header">
                     <h3><i class="fa-solid fa-calculator"></i> Body Mass Index (BMI) Calculator</h3>
+                    <p>Calculate your BMI to understand if you're in a healthy weight range</p>
+                </div>
+                <div class="bmi-calculator">
                     <div class="bmi-inputs">
-                        <div class="form-group">
+                        <div class="input-group">
                             <label for="bmi-height">Height (cm)</label>
-                            <input type="number" id="bmi-height" placeholder="e.g., 175">
+                            <input id="bmi-height" type="number" placeholder="170" min="50" max="300" />
                         </div>
-                        <div class="form-group">
+                        <div class="input-group">
                             <label for="bmi-weight">Weight (kg)</label>
-                            <input type="number" id="bmi-weight" placeholder="e.g., 70">
+                            <input id="bmi-weight" type="number" placeholder="70" min="10" max="300" />
                         </div>
-                        <button id="calculate-bmi-btn" class="bmi-button">Calculate</button>
+                        <button id="calculate-bmi-btn" class="bmi-button">Calculate BMI</button>
                     </div>
                     <div id="bmi-result" class="bmi-result-container hidden">
-                        <h4>Your BMI: <span id="bmi-value"></span></h4>
-                        <p id="bmi-category"></p>
+                        <div class="bmi-display">
+                            <h4>Your BMI: <span id="bmi-value"></span></h4>
+                            <p id="bmi-category" class="bmi-category"></p>
+                            <div id="bmi-advice" class="bmi-advice"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- NEW: Preventive Health Hub Section -->
-        <section class="preventive-health-hub" style="margin-top:2rem;">
-            <header class="health-header">
-                <h2>Preventive Health Hub</h2>
-                <p class="health-subtitle">Proactive steps for a healthier life in India.</p>
-            </header>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Take the first step towards better health management with our AI-powered triage tool.</p>
+                <a href="{{ url_for('triage_page') }}" class="cta-button">Start Health Assessment</a>
+            </div>
+        </div>
+    </section>
 
-            <div class="health-categories">
-                <!-- Monsoon Health Section -->
-                <div class="health-category" data-category="monsoon">
-                <div class="category-card" onclick="toggleSection('monsoon')">
-                    <span class="category-icon">🌧️</span>
-                    <div class="card-content">
-                    <h3>Monsoon Health</h3>
-                    <p>Tips to prevent common monsoon-related illnesses like Dengue, Malaria, and water-borne infections. Stay dry and drink boiled water.</p>
-                    <button class="toggle-btn" id="monsoon-btn">Learn More ▼</button>
-                    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TriageXpert</h3>
+                    <p>AI-powered health pre-screening for better healthcare decisions in India.</p>
                 </div>
-                <div class="health-details" id="monsoon-details" style="display: none;">
-                    <!-- Dynamic content will load here -->
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('triage_page') }}">Triage Tool</a></li>
+                        <li><a href="{{ url_for('health_hub') }}">Health Hub</a></li>
+                    </ul>
                 </div>
-                </div>
-
-                <!-- Heart Health Section -->
-                <div class="health-category" data-category="heart">
-                <div class="category-card" onclick="toggleSection('heart')">
-                    <span class="category-icon">❤️</span>
-                    <div class="card-content">
-                    <h3>Heart Health</h3>
-                    <p>Manage blood pressure and cholesterol through a balanced diet, regular exercise, and stress reduction to protect your heart.</p>
-                    <button class="toggle-btn" id="heart-btn">Learn More ▼</button>
-                    </div>
-                </div>
-                <div class="health-details" id="heart-details" style="display: none;">
-                    <!-- Dynamic content will load here -->
-                </div>
-                </div>
-
-                <!-- Diabetes Prevention Section -->
-                <div class="health-category" data-category="diabetes">
-                <div class="category-card" onclick="toggleSection('diabetes')">
-                    <span class="category-icon">🩺</span>
-                    <div class="card-content">
-                    <h3>Diabetes Prevention</h3>
-                    <p>Focus on a low-glycemic diet, maintain a healthy weight, and engage in regular physical activity to reduce your risk.</p>
-                    <button class="toggle-btn" id="diabetes-btn">Learn More ▼</button>
-                    </div>
-                </div>
-                <div class="health-details" id="diabetes-details" style="display: none;">
-                    <!-- Dynamic content will load here -->
-                </div>
+                <div class="footer-section">
+                    <h4>Disclaimer</h4>
+                    <p>This tool is for informational purposes only and does not replace professional medical advice.</p>
                 </div>
             </div>
-            </section>
-
-
-    </main>
-
-    <footer>
-        <p><strong><i class="fa-solid fa-shield-halved"></i> Disclaimer:</strong> TriageXpert is a proof-of-concept and not a medical device. Always consult a qualified health provider for any medical concerns.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TriageXpert. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
-    <!-- This script is for the index page only (e.g., BMI calculator) -->
-     <!-- Add this before closing </body> tag -->
-
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
-
 </html>

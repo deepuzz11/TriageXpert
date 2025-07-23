@@ -5,15 +5,12 @@ from flask import Flask, request, jsonify, render_template
 import nlp
 import gemini
 from functools import lru_cache
+import os
 
-# Flask constructor looks for 'templates' and 'static' folders by default.
-# This configuration correctly serves static files like CSS and images.
+# Flask constructor looks for 'templates' and 'static' folders by default
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 # --- Caching Function ---
-# LRU Cache stores recent results to prevent redundant API calls, making the app faster.
-# The user's entire profile (including a sorted tuple of history items) is used as the key
-# to ensure the cache is accurate.
 @lru_cache(maxsize=256)
 def get_triage_and_explanation(symptoms: str, age: int, gender: str, bmi: float, history: tuple) -> dict:
     """
@@ -62,6 +59,11 @@ def triage_page():
     """Serves the dedicated triage tool page (triage.html)."""
     return render_template('triage.html')
 
+@app.route('/health-hub')
+def health_hub():
+    """Serves the preventive health hub page."""
+    return render_template('health-hub.html')
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """A simple health check endpoint to confirm the API is running."""
@@ -82,7 +84,7 @@ def handle_triage():
     gender = data.get('gender')
     height_cm = data.get('height')
     weight_kg = data.get('weight')
-    # Convert history list to a sorted tuple to make it a hashable (cacheable)
+    # Convert history list to a sorted tuple to make it hashable (cacheable)
     history = tuple(sorted(data.get('history', []))) 
 
     if not all([symptoms, age, gender, height_cm, weight_kg]):
@@ -103,9 +105,11 @@ def handle_triage():
         print(f"An unexpected error occurred in /triage endpoint: {e}")
         return jsonify({"error": "An internal server error occurred while analyzing symptoms."}), 500
 
-# API endpoint remains unchanged
+# --- Health Hub API Endpoint ---
+
 @app.route('/api/health-tips/<category>')
 def get_health_tips(category):
+    """API endpoint for dynamic health tips loading."""
     health_data = {
         'monsoon': {
             'sections': [

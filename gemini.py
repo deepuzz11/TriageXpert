@@ -1,87 +1,114 @@
 import os
 import google.generativeai as genai
-import json
-from typing import Dict, Any, List
+from typing import Dict, List
 
-# --- Configuration ---
-API_KEY = os.getenv("GOOGLE_API_KEY")
-if not API_KEY:
-    print("Warning: GOOGLE_API_KEY environment variable not set.")
-try:
-    genai.configure(api_key=API_KEY)
-except Exception as e:
-    print(f"Error configuring Gemini API: {e}")
+# Configure Gemini API
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-def generate_structured_explanation(
-    user_profile: Dict[str, Any], 
-    symptoms: str, 
-    category: str, 
-    keywords: List[str]
-) -> Dict[str, Any]:
-    """
-    Generates a highly contextual, structured, English explanation.
-    """
-    if not API_KEY:
-        # Provide a fallback dictionary if the API key is missing
-        return {
-            "error": "Gemini API key not configured.",
-            "explanation": "Cannot generate a detailed explanation due to a configuration issue.",
-            "home_care_suggestions": None,
-            "when_to_worry": "If symptoms worsen or you feel uneasy, please seek medical help immediately.",
-            "next_steps": "Consult a qualified medical professional for advice."
-        }
-
-    # Configuration for the Gemini API call
-    generation_config = {
-        "temperature": 0.5,
-        "top_p": 1,
-        "top_k": 1,
-        "max_output_tokens": 2048,
-        "response_mime_type": "application/json", # Ensures the output is a JSON string
-    }
-
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest", generation_config=generation_config)
+class GeminiHealthAnalyzer:
+    def __init__(self):
+        self.model = genai.GenerativeModel('gemini-pro')
     
-    # The prompt is the instruction given to the AI model.
-    # It includes the user's full profile to ensure the response is contextual.
-    prompt = f"""
-    You are an expert medical pre-screening assistant for a tool in India. Your goal is to provide a calm, structured, and context-aware response in English for a non-medical user based on their complete profile.
+    def generate_structured_explanation(self, user_profile: Dict, symptoms: str, category: str, keywords: List[str]) -> Dict:
+        """Generate a comprehensive health explanation using Gemini AI."""
+        
+        prompt = f"""
+        You are a medical AI assistant. Analyze the following patient information and provide a structured health assessment:
 
-    **CRITICAL INSTRUCTION:** Your analysis MUST be influenced by the user's profile. For example, chest pain in an older patient with hypertension is more critical than in a young, healthy patient. Mention the context if relevant (e.g., "Given your age and history of..."). DO NOT provide a diagnosis.
+        Patient Profile:
+        - Age: {user_profile.get('age', 'Unknown')}
+        - Gender: {user_profile.get('gender', 'Unknown')}
+        - BMI: {user_profile.get('bmi', 'Unknown')}
+        - Medical History: {', '.join(user_profile.get('history', [])) if user_profile.get('history') else 'None reported'}
 
-    **Patient's Full Profile:**
-    - Age: {user_profile.get('age', 'Not provided')}
-    - Gender: {user_profile.get('gender', 'Not provided')}
-    - Body Mass Index (BMI): {user_profile.get('bmi', 'Not calculated')}
-    - Pre-existing Conditions: {', '.join(user_profile.get('history', [])) if user_profile.get('history') else 'None reported'}
-    - Symptoms Reported: "{symptoms}"
-    - Key Symptoms Identified by NLP: {", ".join(keywords) if keywords else "N/A"}
-    - Assigned Triage Category: "{category}"
+        Reported Symptoms: {symptoms}
+        
+        Preliminary Triage Category: {category}
+        Identified Keywords: {', '.join(keywords)}
 
-    **Your Instructions:**
-    1.  **Language:** Generate the entire response in **English**.
-    2.  **Format:** Respond with a valid JSON object with the exact following keys:
-        - "explanation": (String) A brief explanation for the '{category}' triage level, referencing the user's profile and symptoms.
-        - "home_care_suggestions": (String or null) If category is 'Routine', provide 2-3 simple home care tips relevant to the symptoms. Otherwise, this key's value must be null.
-        - "when_to_worry": (String) A clear, bulleted or numbered list of specific signs that should prompt the user to seek immediate medical attention.
-        - "next_steps": (String) A clear, actionable suggestion for what to do next based on the triage category.
+        Please provide a JSON response with the following structure:
+        {{
+            "summary": "Brief 2-3 sentence summary of the condition",
+            "urgency_level": "{category}",
+            "potential_conditions": ["condition1", "condition2", "condition3"],
+            "immediate_actions": ["action1", "action2", "action3"],
+            "red_flags": ["flag1", "flag2"],
+            "follow_up_recommendations": ["recommendation1", "recommendation2"],
+            "lifestyle_advice": ["advice1", "advice2", "advice3"],
+            "when_to_seek_help": "Description of when immediate medical attention is needed",
+            "disclaimer": "Medical disclaimer text"
+        }}
 
-    **JSON Response Template:**
-    {{
-        "explanation": "...", "home_care_suggestions": "...", "when_to_worry": "...", "next_steps": "..."
-    }}
-    """
+        Important: 
+        - This is for informational purposes only, not medical diagnosis
+        - Always recommend consulting healthcare professionals
+        - Be specific to Indian healthcare context where relevant
+        - Consider age and BMI in recommendations
+        """
 
-    try:
-        response = model.generate_content([prompt])
-        # Parse the JSON string from the AI's response into a Python dictionary
-        return json.loads(response.text)
-    except Exception as e:
-        print(f"Error during Gemini API call or JSON parsing: {e}")
-        # Return a safe, generic fallback response in case of an error
-        return {
-            "explanation": "Could not generate a detailed explanation at this time. Please follow standard medical advice for your determined triage category.",
-            "home_care_suggestions": None,
-            "when_to_worry": "If your symptoms worsen, or if you develop new, severe symptoms like difficulty breathing or chest pain, please seek immediate medical help.",
-            "next_steps": "It is recommended to consult a medical professional for an accurate diagnosis and treatment."
+        try:
+            response = self.model.generate_content(prompt)
+            # Parse the JSON response
+            import json
+            
+            # Clean the response text
+            response_text = response.text.strip()
+            if response_text.startswith('```'):
+                response_text = response_text[7:-3]
+            elif response_text.startswith('```'):
+                response_text = response_text[3:-3]
+            
+            parsed_response = json.loads(response_text)
+            return parsed_response
+            
+        except Exception as e:
+            print(f"Error with Gemini API: {e}")
+            # Fallback response
+            return self._get_fallback_response(category, symptoms)
+    
+    def _get_fallback_response(self, category: str, symptoms: str) -> Dict:
+        """Provide a fallback response if Gemini API fails."""
+        fallback_responses = {
+            'Emergency': {
+                "summary": "Your symptoms suggest a potentially serious condition that requires immediate medical attention.",
+                "urgency_level": "Emergency",
+                "potential_conditions": ["Acute condition requiring immediate care"],
+                "immediate_actions": ["Call emergency services immediately", "Go to nearest emergency room", "Do not delay seeking help"],
+                "red_flags": ["Severe symptoms", "Rapid onset"],
+                "follow_up_recommendations": ["Emergency medical evaluation"],
+                "lifestyle_advice": ["Follow emergency protocols"],
+                "when_to_seek_help": "Seek immediate emergency medical care",
+                "disclaimer": "This is not a medical diagnosis. Seek immediate professional medical help."
+            },
+            'Urgent': {
+                "summary": "Your symptoms indicate a condition that should be evaluated by a healthcare provider soon.",
+                "urgency_level": "Urgent",
+                "potential_conditions": ["Condition requiring medical evaluation"],
+                "immediate_actions": ["Contact your doctor", "Consider urgent care visit", "Monitor symptoms"],
+                "red_flags": ["Worsening symptoms", "New concerning symptoms"],
+                "follow_up_recommendations": ["Medical evaluation within 24-48 hours"],
+                "lifestyle_advice": ["Rest", "Stay hydrated", "Avoid strenuous activities"],
+                "when_to_seek_help": "Contact healthcare provider if symptoms worsen",
+                "disclaimer": "This is not a medical diagnosis. Consult a healthcare professional for proper evaluation."
+            },
+            'Routine': {
+                "summary": "Your symptoms appear to be non-urgent but should still be monitored.",
+                "urgency_level": "Routine",
+                "potential_conditions": ["Common condition", "Self-limiting illness"],
+                "immediate_actions": ["Rest and self-care", "Monitor symptoms", "Stay hydrated"],
+                "red_flags": ["Symptoms getting worse", "Fever developing"],
+                "follow_up_recommendations": ["Schedule routine appointment if symptoms persist"],
+                "lifestyle_advice": ["Adequate rest", "Proper nutrition", "Stay hydrated"],
+                "when_to_seek_help": "Contact healthcare provider if symptoms persist beyond a week",
+                "disclaimer": "This is not a medical diagnosis. Consult a healthcare professional if you have concerns."
+            }
         }
+        
+        return fallback_responses.get(category, fallback_responses['Routine'])
+
+# Initialize the analyzer
+health_analyzer = GeminiHealthAnalyzer()
+
+def generate_structured_explanation(user_profile: Dict, symptoms: str, category: str, keywords: List[str]) -> Dict:
+    """Main function to generate health explanation."""
+    return health_analyzer.generate_structured_explanation(user_profile, symptoms, category, keywords)

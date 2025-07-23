@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preventive Health Hub - TriageXpert</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TriageXpert</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
+                <li><a href="{{ url_for('health_hub') }}" class="nav-link active">Health Hub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Health Hub Section -->
+    <section class="preventive-health-hub">
+        <div class="container">
+            <header class="health-header">
+                <h1>Preventive Health Hub</h1>
+                <p class="health-subtitle">Proactive steps for a healthier life in India</p>
+            </header>
+
+            <div class="health-categories">
+                <!-- Monsoon Health Section -->
+                <div class="health-category" data-category="monsoon">
+                    <div class="category-card" onclick="toggleHealthSection('monsoon')">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-cloud-rain"></i>
+                            <span class="emoji-icon">🌧️</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Monsoon Health</h3>
+                            <p>Tips to prevent common monsoon-related illnesses like Dengue, Malaria, and water-borne infections. Stay dry and drink boiled water.</p>
+                            <button class="toggle-btn" id="monsoon-btn">Learn More ▼</button>
+                        </div>
+                    </div>
+                    <div class="health-details" id="monsoon-details" style="display: none;">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Heart Health Section -->
+                <div class="health-category" data-category="heart">
+                    <div class="category-card" onclick="toggleHealthSection('heart')">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span class="emoji-icon">❤️</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Heart Health</h3>
+                            <p>Manage blood pressure and cholesterol through a balanced diet, regular exercise, and stress reduction to protect your heart.</p>
+                            <button class="toggle-btn" id="heart-btn">Learn More ▼</button>
+                        </div>
+                    </div>
+                    <div class="health-details" id="heart-details" style="display: none;">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Diabetes Prevention Section -->
+                <div class="health-category" data-category="diabetes">
+                    <div class="category-card" onclick="toggleHealthSection('diabetes')">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-syringe"></i>
+                            <span class="emoji-icon">🩺</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Diabetes Prevention</h3>
+                            <p>Focus on a low-glycemic diet, maintain a healthy weight, and engage in regular physical activity to reduce your risk.</p>
+                            <button class="toggle-btn" id="diabetes-btn">Learn More ▼</button>
+                        </div>
+                    </div>
+                    <div class="health-details" id="diabetes-details" style="display: none;">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='health-inline.js') }}"></script>
+</body>
+</html>
