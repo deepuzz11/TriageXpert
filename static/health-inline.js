@@ -2,7 +2,9 @@
 
 let loadedSections = new Set();
 
+// Toggle health section with accessibility and smooth scroll
 async function toggleHealthSection(category) {
+    const card = document.querySelector(`.health-category[data-category="${category}"] .category-card`);
     const detailsDiv = document.getElementById(`${category}-details`);
     const button = document.getElementById(`${category}-btn`);
 
@@ -10,6 +12,7 @@ async function toggleHealthSection(category) {
     document.querySelectorAll('.health-details').forEach(el => {
         if (el !== detailsDiv) {
             el.style.display = 'none';
+            el.setAttribute('aria-hidden', 'true');
         }
     });
     
@@ -17,6 +20,7 @@ async function toggleHealthSection(category) {
         if (btn !== button) {
             btn.textContent = 'Learn More ▼';
             btn.classList.remove('active');
+            btn.closest('.category-card').setAttribute('aria-expanded', 'false');
         }
     });
 
@@ -29,8 +33,10 @@ async function toggleHealthSection(category) {
         }
         
         detailsDiv.style.display = 'block';
+        detailsDiv.setAttribute('aria-hidden', 'false');
         button.textContent = 'Hide Details ▲';
         button.classList.add('active');
+        card.setAttribute('aria-expanded', 'true');
         
         // Smooth scroll to the expanded section
         setTimeout(() => {
@@ -41,11 +47,14 @@ async function toggleHealthSection(category) {
         }, 100);
     } else {
         detailsDiv.style.display = 'none';
+        detailsDiv.setAttribute('aria-hidden', 'true');
         button.textContent = 'Learn More ▼';
         button.classList.remove('active');
+        card.setAttribute('aria-expanded', 'false');
     }
 }
 
+// Load health content with error handling and retry
 async function loadHealthContent(category) {
     const detailsDiv = document.getElementById(`${category}-details`);
     
@@ -111,7 +120,23 @@ async function loadHealthContent(category) {
     }
 }
 
-// Add custom CSS for health hub interactions
+// Add keyboard accessibility (Enter key to toggle)
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Health Hub initialized');
+    
+    // Keyboard support for toggling
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const category = this.closest('.health-category').dataset.category;
+                toggleHealthSection(category);
+            }
+        });
+    });
+});
+
+// Inject the CSS (cleaned and optimized)
 const healthHubCSS = `
 <style>
 .loading-content, .error-content {
@@ -151,6 +176,7 @@ const healthHubCSS = `
     cursor: pointer;
     margin-top: 1rem;
     transition: background-color 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .retry-btn:hover {
@@ -282,8 +308,3 @@ const healthHubCSS = `
 
 // Inject the CSS
 document.head.insertAdjacentHTML('beforeend', healthHubCSS);
-
-// Initialize health hub on page load
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Health Hub initialized');
-});

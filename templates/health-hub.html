@@ -23,17 +23,17 @@
     </nav>
 
     <!-- Health Hub Section -->
-    <section class="preventive-health-hub">
+    <section class="preventive-health-hub" aria-labelledby="health-hub-title">
         <div class="container">
             <header class="health-header">
-                <h1>Preventive Health Hub</h1>
+                <h1 id="health-hub-title">Preventive Health Hub</h1>
                 <p class="health-subtitle">Proactive steps for a healthier life in India</p>
             </header>
 
-            <div class="health-categories">
+            <div class="health-categories" role="tablist">
                 <!-- Monsoon Health Section -->
-                <div class="health-category" data-category="monsoon">
-                    <div class="category-card" onclick="toggleHealthSection('monsoon')">
+                <div class="health-category" data-category="monsoon" role="tabpanel">
+                    <div class="category-card" onclick="toggleHealthSection('monsoon')" tabindex="0" role="tab" aria-controls="monsoon-details" aria-expanded="false">
                         <div class="card-icon-wrapper">
                             <i class="fa-solid fa-cloud-rain"></i>
                             <span class="emoji-icon">🌧️</span>
@@ -44,14 +44,14 @@
                             <button class="toggle-btn" id="monsoon-btn">Learn More ▼</button>
                         </div>
                     </div>
-                    <div class="health-details" id="monsoon-details" style="display: none;">
+                    <div class="health-details" id="monsoon-details" style="display: none;" aria-hidden="true">
                         <!-- Content will be loaded dynamically -->
                     </div>
                 </div>
 
                 <!-- Heart Health Section -->
-                <div class="health-category" data-category="heart">
-                    <div class="category-card" onclick="toggleHealthSection('heart')">
+                <div class="health-category" data-category="heart" role="tabpanel">
+                    <div class="category-card" onclick="toggleHealthSection('heart')" tabindex="0" role="tab" aria-controls="heart-details" aria-expanded="false">
                         <div class="card-icon-wrapper">
                             <i class="fa-solid fa-heart-pulse"></i>
                             <span class="emoji-icon">❤️</span>
@@ -62,14 +62,14 @@
                             <button class="toggle-btn" id="heart-btn">Learn More ▼</button>
                         </div>
                     </div>
-                    <div class="health-details" id="heart-details" style="display: none;">
+                    <div class="health-details" id="heart-details" style="display: none;" aria-hidden="true">
                         <!-- Content will be loaded dynamically -->
                     </div>
                 </div>
 
                 <!-- Diabetes Prevention Section -->
-                <div class="health-category" data-category="diabetes">
-                    <div class="category-card" onclick="toggleHealthSection('diabetes')">
+                <div class="health-category" data-category="diabetes" role="tabpanel">
+                    <div class="category-card" onclick="toggleHealthSection('diabetes')" tabindex="0" role="tab" aria-controls="diabetes-details" aria-expanded="false">
                         <div class="card-icon-wrapper">
                             <i class="fa-solid fa-syringe"></i>
                             <span class="emoji-icon">🩺</span>
@@ -80,7 +80,7 @@
                             <button class="toggle-btn" id="diabetes-btn">Learn More ▼</button>
                         </div>
                     </div>
-                    <div class="health-details" id="diabetes-details" style="display: none;">
+                    <div class="health-details" id="diabetes-details" style="display: none;" aria-hidden="true">
                         <!-- Content will be loaded dynamically -->
                     </div>
                 </div>
