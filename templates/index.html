@@ -6,6 +6,7 @@
     <title>TriageXpert - AI-Powered Health Pre-Screening</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
@@ -19,6 +20,10 @@
                 <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
                 <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
             </ul>
+            <!-- Dark Mode Toggle Button -->
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
             <div class="nav-toggle">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -43,59 +48,59 @@
             </div>
         </div>
     </section>
-<!-- Features Section -->
-<section class="features-section">
-    <div class="container">
-        <h2 class="section-title">Why Use TriageXpert?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-bolt"></i>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Use TriageXpert?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3>Instant Analysis</h3>
+                    <p>Get immediate, AI-driven feedback on your symptoms, available 24/7 from anywhere in India.</p>
                 </div>
-                <h3>Instant Analysis</h3>
-                <p>Get immediate, AI-driven feedback on your symptoms, available 24/7 from anywhere in India.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-brain"></i>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Context-Aware AI</h3>
+                    <p>Our analysis considers your age, medical history, and vitals for a personalized health assessment report.</p>
                 </div>
-                <h3>Context-Aware AI</h3>
-                <p>Our analysis considers your age, medical history, and vitals for a personalized health assessment report.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-file-medical"></i>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </div>
+                    <h3>Comprehensive Reports</h3>
+                    <p>Receive detailed health reports with recommendations you can share with your healthcare provider.</p>
                 </div>
-                <h3>Comprehensive Reports</h3>
-                <p>Receive detailed health reports with recommendations you can share with your healthcare provider.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-shield-heart"></i>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h3>Privacy Protected</h3>
+                    <p>Your health data is processed securely with no permanent storage, ensuring complete privacy.</p>
                 </div>
-                <h3>Privacy Protected</h3>
-                <p>Your health data is processed securely with no permanent storage, ensuring complete privacy.</p>
-            </div>
-            <!-- Added Feature 1: Preventive Health Integration -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-apple-alt"></i>
+                <!-- Added Feature 1: Preventive Health Integration -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-apple-alt"></i>
+                    </div>
+                    <h3>Preventive Health Tips</h3>
+                    <p>Access expert-curated tips for common health concerns like monsoon illnesses, heart health, and diabetes prevention.</p>
                 </div>
-                <h3>Preventive Health Tips</h3>
-                <p>Access expert-curated tips for common health concerns like monsoon illnesses, heart health, and diabetes prevention.</p>
-            </div>
-            <!-- Added Feature 2: Mobile Accessibility -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-mobile-alt"></i>
+                <!-- Added Feature 2: Mobile Accessibility -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-mobile-alt"></i>
+                    </div>
+                    <h3>24/7 Mobile Access</h3>
+                    <p>Use our responsive platform on any device for quick health assessments and tips, anytime and anywhere.</p>
                 </div>
-                <h3>24/7 Mobile Access</h3>
-                <p>Use our responsive platform on any device for quick health assessments and tips, anytime and anywhere.</p>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- Health Tools Section -->
     <section class="health-tools-section">
@@ -164,9 +169,9 @@
                     <p>This tool is for informational purposes only and does not replace professional medical advice.</p>
                 </div>
             </div>
-           <div class="footer-bottom">
-            <p>&copy; <span id="current-year"></span> TriageXpert. All rights reserved. | Developed by DEEPIKA P</p>
-        </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> TriageXpert. All rights reserved. | Developed by DEEPIKA P</p>
+            </div>
         </div>
     </footer>
 

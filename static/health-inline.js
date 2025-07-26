@@ -120,11 +120,35 @@ async function loadHealthContent(category) {
     }
 }
 
-// Add keyboard accessibility (Enter key to toggle)
+// Dark Mode Toggle Function
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
+    // Save preference to localStorage
+    localStorage.setItem('darkMode', isDarkMode);
+    
+    // Update all toggle icons on the page
+    const toggleIcons = document.querySelectorAll('.dark-mode-toggle i');
+    toggleIcons.forEach(icon => {
+        icon.className = isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    });
+    
+    console.log('Dark mode toggled:', isDarkMode ? 'ON' : 'OFF');
+}
+
+// Initialize page functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Health Hub initialized');
     
-    // Keyboard support for toggling
+    // Load dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        const toggleIcons = document.querySelectorAll('.dark-mode-toggle i');
+        toggleIcons.forEach(icon => icon.className = 'fa-solid fa-sun');
+    }
+    
+    // Keyboard support for toggling health sections
     document.querySelectorAll('.category-card').forEach(card => {
         card.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -287,6 +311,21 @@ const healthHubCSS = `
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Dark mode specific styles for health hub */
+body.dark-mode .loading-content,
+body.dark-mode .error-content {
+    color: #bbb;
+}
+
+body.dark-mode .tip-item {
+    background: #34495e;
+    color: #ecf0f1;
+}
+
+body.dark-mode .section-header h4 {
+    color: #ecf0f1;
 }
 
 /* Mobile optimizations */

@@ -2,6 +2,14 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeTriageTool();
+
+    // Load dark mode preference on page load (global consistency)
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        // Update all dark mode toggle icons to sun
+        const toggleIcons = document.querySelectorAll('.dark-mode-toggle i');
+        toggleIcons.forEach(icon => icon.className = 'fa-solid fa-sun');
+    }
 });
 
 function initializeTriageTool() {
@@ -318,3 +326,22 @@ const additionalCSS = `
 
 // Inject additional CSS
 document.head.insertAdjacentHTML('beforeend', additionalCSS);
+
+// Global Dark Mode Toggle Function
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
+    // Save preference to localStorage
+    localStorage.setItem('darkMode', isDarkMode);
+    
+    // Update all toggle icons (moon to sun or vice versa)
+    const toggleIcons = document.querySelectorAll('.dark-mode-toggle i');
+    toggleIcons.forEach(icon => {
+        icon.className = isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        // Force visibility with inline style (fallback if CSS not applying)
+        icon.style.color = isDarkMode ? '#ffd700' : '#4a5568';
+    });
+    
+    console.log('Dark mode toggled:', isDarkMode ? 'ON' : 'OFF');
+}

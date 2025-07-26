@@ -6,6 +6,7 @@
     <title>Triage Tool - TriageXpert</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
@@ -19,6 +20,10 @@
                 <li><a href="{{ url_for('triage_page') }}" class="nav-link active">Triage Tool</a></li>
                 <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
             </ul>
+            <!-- Dark Mode Toggle Button -->
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
         </div>
     </nav>
 
