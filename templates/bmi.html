@@ -280,12 +280,14 @@
             background: #007bff;
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
+            padding: 15px 40px;  /* Larger padding for bigger size */
+            border-radius: 8px;  /* Rounded corners */
             cursor: pointer;
             font-weight: 600;
+            font-size: 1.5rem;  /* Larger font size */
             transition: background-color 0.3s ease;
-            height: fit-content;
+            display: block;  /* Block for centering */
+            margin: 20px auto;  /* Center horizontally with top/bottom margin */
         }
 
         body.dark-mode .bmi-button {
@@ -424,6 +426,7 @@
             <ul class="nav-menu">
                 <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
                 <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
+                <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-link active">Instant Health Tools <i class="fa-solid fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
@@ -432,8 +435,6 @@
                         <li><a href="{{ url_for('water_tool') }}" class="dropdown-link">Water Intake</a></li>
                     </ul>
                 </li>
-                
-            <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
             </ul>
             <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
                 <i class="fa-solid fa-moon"></i>
@@ -475,31 +476,31 @@
                             <label for="bmi-weight">Weight (kg)</label>
                             <input id="bmi-weight" type="number" placeholder="70" min="10" max="300" />
                         </div>
-                        <button id="calculate-bmi-btn" class="bmi-button">Calculate Advanced BMI</button>
                     </div>
-                    <div id="bmi-result" class="bmi-result-container hidden">
-                        <div class="bmi-display">
-                            <h4>Your BMI: <span id="bmi-value"></span></h4>
-                            <p id="bmi-category" class="bmi-category"></p>
-                            <div class="advanced-info">
-                                <div class="info-card">
-                                    <h5>Body Fat Estimate</h5>
-                                    <p id="bmi-bodyfat"></p>
-                                </div>
-                                <div class="info-card">
-                                    <h5>Ideal Weight Range</h5>
-                                    <p id="bmi-ideal-weight"></p>
-                                </div>
-                                <div class="info-card">
-                                    <h5>Health Risks</h5>
-                                    <p id="bmi-risks"></p>
-                                </div>
+                    <button id="calculate-bmi-btn" class="bmi-button">Calculate Advanced BMI</button>
+                </div>
+                <div id="bmi-result" class="bmi-result-container hidden">
+                    <div class="bmi-display">
+                        <h4>Your BMI: <span id="bmi-value"></span></h4>
+                        <p id="bmi-category" class="bmi-category"></p>
+                        <div class="advanced-info">
+                            <div class="info-card">
+                                <h5>Body Fat Estimate</h5>
+                                <p id="bmi-bodyfat"></p>
                             </div>
-                            <div class="bmi-progress">
-                                <div class="progress-bar" id="bmi-progress"></div>
+                            <div class="info-card">
+                                <h5>Ideal Weight Range</h5>
+                                <p id="bmi-ideal-weight"></p>
                             </div>
-                            <div id="bmi-advice" class="bmi-advice"></div>
+                            <div class="info-card">
+                                <h5>Health Risks</h5>
+                                <p id="bmi-risks"></p>
+                            </div>
                         </div>
+                        <div class="bmi-progress">
+                            <div class="progress-bar" id="bmi-progress"></div>
+                        </div>
+                        <div id="bmi-advice" class="bmi-advice"></div>
                     </div>
                 </div>
             </div>

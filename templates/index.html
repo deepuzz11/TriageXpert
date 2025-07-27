@@ -11,36 +11,36 @@
 <body>
     <!-- Navigation (with Dark Mode Toggle) -->
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-logo">
-            <h2>TriageXpert</h2>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TriageXpert</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
+                <!-- New: Instant Health Tools Dropdown -->
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-link">Instant Health Tools <i class="fa-solid fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('bmi_tool') }}" class="dropdown-link">BMI Calculator</a></li>
+                        <li><a href="{{ url_for('calorie_tool') }}" class="dropdown-link">Calorie Needs</a></li>
+                        <li><a href="{{ url_for('water_tool') }}" class="dropdown-link">Water Intake</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
+            </ul>
+            <!-- Dark Mode Toggle Button -->
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-        <ul class="nav-menu">
-            <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
-            <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
-            <!-- New: Instant Health Tools Dropdown -->
-            <li class="nav-dropdown">
-                <a href="#" class="nav-link">Instant Health Tools <i class="fa-solid fa-caret-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('bmi_tool') }}" class="dropdown-link">BMI Calculator</a></li>
-                    <li><a href="{{ url_for('calorie_tool') }}" class="dropdown-link">Calorie Needs</a></li>
-                    <li><a href="{{ url_for('water_tool') }}" class="dropdown-link">Water Intake</a></li>
-                </ul>
-            </li>
-            
-            <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
-        </ul>
-        <!-- Dark Mode Toggle Button -->
-        <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <div class="nav-toggle">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -107,132 +107,6 @@
                     </div>
                     <h3>24/7 Mobile Access</h3>
                     <p>Use our responsive platform on any device for quick health assessments and tips, anytime and anywhere.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Health Tools Section (Updated with New Tools) -->
-    <section class="health-tools-section">
-        <div class="container">
-            <h2 class="section-title">Instant Health Tools</h2>
-            
-            <!-- BMI Calculator (Existing) -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fa-solid fa-calculator"></i> Body Mass Index (BMI) Calculator</h3>
-                    <p>Calculate your BMI to understand if you're in a healthy weight range</p>
-                </div>
-                <div class="bmi-calculator">
-                    <div class="bmi-inputs">
-                        <div class="input-group">
-                            <label for="bmi-height">Height (cm)</label>
-                            <input id="bmi-height" type="number" placeholder="170" min="50" max="300" />
-                        </div>
-                        <div class="input-group">
-                            <label for="bmi-weight">Weight (kg)</label>
-                            <input id="bmi-weight" type="number" placeholder="70" min="10" max="300" />
-                        </div>
-                        <button id="calculate-bmi-btn" class="bmi-button">Calculate BMI</button>
-                    </div>
-                    <div id="bmi-result" class="bmi-result-container hidden">
-                        <div class="bmi-display">
-                            <h4>Your BMI: <span id="bmi-value"></span></h4>
-                            <p id="bmi-category" class="bmi-category"></p>
-                            <div id="bmi-advice" class="bmi-advice"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- New Tool 1: Daily Calorie Needs Calculator -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fa-solid fa-fire"></i> Daily Calorie Needs Calculator</h3>
-                    <p>Estimate your daily calorie requirements for maintenance</p>
-                </div>
-                <div class="calorie-calculator">
-                    <div class="calorie-inputs">
-                        <div class="input-group">
-                            <label for="calorie-age">Age</label>
-                            <input id="calorie-age" type="number" placeholder="30" min="1" max="120" />
-                        </div>
-                        <div class="input-group">
-                            <label for="calorie-gender">Gender</label>
-                            <select id="calorie-gender">
-                                <option value="">Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="calorie-height">Height (cm)</label>
-                            <input id="calorie-height" type="number" placeholder="170" min="50" max="300" />
-                        </div>
-                        <div class="input-group">
-                            <label for="calorie-weight">Weight (kg)</label>
-                            <input id="calorie-weight" type="number" placeholder="70" min="10" max="300" />
-                        </div>
-                        <div class="input-group">
-                            <label for="calorie-activity">Activity Level</label>
-                            <select id="calorie-activity">
-                                <option value="">Select</option>
-                                <option value="sedentary">Sedentary</option>
-                                <option value="light">Lightly Active</option>
-                                <option value="moderate">Moderately Active</option>
-                                <option value="very">Very Active</option>
-                                <option value="super">Super Active</option>
-                            </select>
-                        </div>
-                        <button id="calculate-calorie-btn" class="bmi-button">Calculate Calories</button>
-                    </div>
-                    <div id="calorie-result" class="bmi-result-container hidden">
-                        <div class="bmi-display">
-                            <h4>Daily Calories: <span id="calorie-value"></span></h4>
-                            <div id="calorie-advice" class="bmi-advice"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- New Tool 2: Water Intake Calculator -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fa-solid fa-tint"></i> Daily Water Intake Calculator</h3>
-                    <p>Estimate your recommended daily water intake</p>
-                </div>
-                <div class="water-calculator">
-                    <div class="water-inputs">
-                        <div class="input-group">
-                            <label for="water-weight">Weight (kg)</label>
-                            <input id="water-weight" type="number" placeholder="70" min="10" max="300" />
-                        </div>
-                        <div class="input-group">
-                            <label for="water-activity">Activity Level</label>
-                            <select id="water-activity">
-                                <option value="">Select</option>
-                                <option value="low">Low (sedentary)</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="high">High (exercise/sports)</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="water-climate">Climate</label>
-                            <select id="water-climate">
-                                <option value="">Select</option>
-                                <option value="cool">Cool</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="hot">Hot/Humid</option>
-                            </select>
-                        </div>
-                        <button id="calculate-water-btn" class="bmi-button">Calculate Water Intake</button>
-                    </div>
-                    <div id="water-result" class="bmi-result-container hidden">
-                        <div class="bmi-display">
-                            <h4>Daily Water: <span id="water-value"></span> liters</h4>
-                            <div id="water-advice" class="bmi-advice"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
