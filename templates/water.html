@@ -1,15 +1,418 @@
+<!-- water.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Water Intake Calculator - TriageXpert</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Internal CSS for Water Page */
+
+        /* Global Variables for Theming */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #28a745;
+            --error-color: #dc3545;
+            --background-light: #f8f9fa;
+            --background-dark: #2c3e50;
+            --text-color: #2c3e50;
+            --text-light: #ffffff;
+            --font-family: 'Poppins', sans-serif;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background-light);
+            transition: background var(--transition-speed), color var(--transition-speed);
+            margin: 0;
+            padding: 0;
+        }
+
+        body.dark-mode {
+            background: var(--background-dark);
+            color: var(--text-light);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background var(--transition-speed);
+        }
+
+        body.dark-mode .navbar {
+            background: #1a252f;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all var(--transition-speed);
+        }
+
+        body.dark-mode .nav-link {
+            color: var(--text-light);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Navbar Dropdown Styles */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--background-light);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            list-style: none;
+            padding: 1rem 0;
+            min-width: 200px;
+            z-index: 1000;
+        }
+
+        body.dark-mode .dropdown-menu {
+            background: #1a252f;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background var(--transition-speed);
+        }
+
+        body.dark-mode .dropdown-link {
+            color: var(--text-light);
+        }
+
+        .dropdown-link:hover,
+        .dropdown-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform var(--transition-speed), color var(--transition-speed);
+            color: var(--text-color);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: var(--text-light);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        /* Tool Page Styles */
+        .tool-section {
+            padding: 4rem 0;
+            background: var(--background-light);
+            min-height: calc(100vh - 70px);
+            transition: background var(--transition-speed);
+        }
+
+        body.dark-mode .tool-section {
+            background: var(--background-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .tool-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            text-align: center;
+            opacity: 1;
+            transition: color var(--transition-speed);
+        }
+
+        body.dark-mode .tool-title {
+            color: var(--text-light);
+        }
+
+        .tool-description {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.6;
+            opacity: 1;
+            transition: color var(--transition-speed);
+        }
+
+        body.dark-mode .tool-description {
+            color: #bbb;
+        }
+
+        .tool-title, .tool-description {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tool Card and Inputs */
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            transition: background var(--transition-speed);
+        }
+
+        body.dark-mode .tool-card {
+            background: #2c3e50;
+        }
+
+        .water-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .input-group label {
+            color: var(--text-light);
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, background var(--transition-speed), color var(--transition-speed);
+        }
+
+        body.dark-mode .input-group input,
+        body.dark-mode .input-group select {
+            background: #34495e;
+            color: var(--text-light);
+            border-color: #4a5568;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        body.dark-mode .input-group input:focus,
+        body.dark-mode .input-group select:focus {
+            border-color: #4dabf7;
+        }
+
+        .bmi-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            height: fit-content;
+        }
+
+        body.dark-mode .bmi-button {
+            background: #4dabf7;
+        }
+
+        .bmi-button:hover {
+            background: #0056b3;
+        }
+
+        body.dark-mode .bmi-button:hover {
+            background: #0984e3;
+        }
+
+        /* Result Container */
+        .bmi-result-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 4px solid #007bff;
+            transition: background var(--transition-speed);
+        }
+
+        body.dark-mode .bmi-result-container {
+            background: #34495e;
+            border-left-color: #4dabf7;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Advanced Info and Progress */
+        .advanced-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            transition: transform var(--transition-speed);
+        }
+
+        body.dark-mode .info-card {
+            background: #34495e;
+            border-color: #4a5568;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .info-card h5 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .info-card h5 {
+            color: var(--text-light);
+        }
+
+        .water-progress {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        body.dark-mode .water-progress {
+            background: #4a5568;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #007bff;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        body.dark-mode .progress-bar {
+            background: #4dabf7;
+        }
+
+        .progress-bar.hydrate { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+
+        .bmi-advice {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .bmi-advice {
+            color: #bbb;
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .water-inputs {
+                grid-template-columns: 1fr;
+            }
+            .advanced-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar (unchanged) -->
+    <!-- Navbar (with dropdown) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -68,9 +471,9 @@
                             <label for="water-activity">Activity Level</label>
                             <select id="water-activity">
                                 <option value="">Select</option>
-                                <option value="low">Low</option>
+                                <option value="low">Low (sedentary)</option>
                                 <option value="moderate">Moderate</option>
-                                <option value="high">High</option>
+                                <option value="high">High (exercise/sports)</option>
                             </select>
                         </div>
                         <div class="input-group">
