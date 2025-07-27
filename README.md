@@ -4,6 +4,13 @@
 
 TriageXpert is a proof-of-concept web application engineered to perform preliminary medical pre-screening. The system leverages a sophisticated architecture combining Natural Language Processing (NLP) with advanced Large Language Models (LLMs) to analyze user-reported symptoms against their unique medical profile. The objective is to produce a structured, informational report that assists users in understanding the potential urgency of their health concerns and identifying appropriate next steps.
 
+This project emphasizes privacy (no data storage), accessibility (mobile-friendly), and professional medical disclaimers. It's built as a Flask web app with client-side JavaScript for interactivity and server-side Python for API integration.
+
+### Key Objectives
+- Assist users in understanding symptom urgency (Emergency, Urgent, Routine).
+- Deliver Gemini-generated, structured health assessments with clinical summaries, differential diagnoses, and care plans.
+- Promote preventive health through curated tips and tools.
+
 ---
 
 ### **Disclaimer of Medical Liability**
@@ -14,15 +21,15 @@ This application is an experimental demonstration and is **not a certified medic
 
 ## Core Features
 
-*   **Contextual AI Analysis:** The system performs a nuanced analysis that extends beyond simple keyword matching by integrating the user's age, Body Mass Index (BMI), and pre-existing conditions. This results in a more personalized and contextually relevant preliminary report.
-*   **Guided User Intake Protocol:** A multi-step user interface systematically collects essential demographic data, medical history, and symptoms to construct a comprehensive profile for the AI-driven assessment.
-*   **Structured Health Reporting:** Upon analysis, the application generates a standardized report that includes the following components:
-    *   **Triage Classification:** A designation of `Emergency`, `Urgent`, or `Routine` to indicate the assessed level of urgency.
-    *   **Symptom Identification:** A list of key symptoms and medical terms extracted from the user's narrative.
-    *   **Assessment Rationale:** A detailed explanation of the factors contributing to the triage classification.
-    *   **Procedural Guidance:** Actionable recommendations for next steps and a list of critical indicators for seeking immediate medical assistance.
-    *   **Self-Care Suggestions:** Relevant home care advice for conditions classified as non-urgent.
-*   **Portable Document Generation:** Users can export their report as a PDF document, providing a portable and easily shareable summary for consultation with healthcare providers.
+- **AI-Powered Triage Tool**: Analyze symptoms with patient profile (age, gender, BMI, history) to generate triage category, confidence score, and detailed Gemini API-based assessment.
+- **Professional Results Display**: Clinical-grade interface with sections for summary, immediate actions, differential diagnosis, warning signs, follow-up plans, lifestyle advice, and disclaimers.
+- **Preventive Health Hub**: Interactive cards with dynamic, API-loaded tips for monsoon health, heart care, and diabetes prevention.
+- **BMI Calculator**: Instant body mass index calculation with categorized advice.
+- **Dark Mode**: Toggleable theme with localStorage persistence, text color adjustments, and icon visibility (moon/sun).
+- **Responsive Design**: Mobile-optimized with hover effects, animations, and keyboard accessibility.
+- **Privacy-Focused**: No database; all processing is ephemeral.
+- **Gemini API Integration**: Generates personalized, structured medical explanations based on user input.
+- **Portable Document Generation**: Users can export their report as a PDF document, providing a portable and easily shareable summary for consultation with healthcare providers.
 
 ## System Architecture and Workflow
 
@@ -36,20 +43,25 @@ TriageXpert is implemented with a multi-stage architecture designed to ensure a 
 
 ## Technology Stack
 
-The solution is built on a modern technology stack, selected for its robust capabilities in handling complex AI and web-based workflows.
+- **Backend**: Python 3.8+, Flask (web framework), google-generativeai (Gemini API client).
+- **Frontend**: HTML5, CSS3 (with variables and transitions), JavaScript (vanilla for interactivity).
+- **AI/ML**: Google Gemini Pro model for natural language generation of health assessments; Hugging Face Transformers (`ClinicalBERT`), spaCy, NLTK for NLP.
+- **Libraries**: Font Awesome (icons), Google Fonts (Poppins typography).
+- **Tools**: LocalStorage for theme persistence, Fetch API for server communication, jsPDF for document generation.
+- **Data Interchange**: RESTful APIs, JSON.
 
-*   **Backend:** Python, Flask
-*   **Artificial Intelligence and Machine Learning:**
-    *   **Generative AI:** Google Generative AI (Gemini)
-    *   **Natural Language Processing:** Hugging Face Transformers (`ClinicalBERT`), spaCy, NLTK
-*   **Frontend:** HTML5, CSS3, JavaScript
-*   **Data Interchange:** RESTful APIs, JSON
-*   **Document Generation:** jsPDF
+## Usage
 
-## Contribution and Inquiries
-
-We welcome opportunities for collaboration, research, and further development. For inquiries or to propose contributions, please open an issue on this repository or contact the project maintainers directly.
+1. **Home Page**: Start with symptom triage or explore health hub/BMI tool.
+2. **Triage Tool**:
+   - Describe symptoms and provide profile details.
+   - Receive professional assessment with clinical sections.
+3. **Health Hub**: Click categories for API-loaded preventive tips.
+4. **Dark Mode**: Toggle via navbar icon (persists across sessions).
+5. **BMI Calculator**: Input height/weight for instant results.
 
 ## License
 
-This project is distributed under the terms of the **MIT License**. Please see the `LICENSE` file for more details.
+MIT License - see [LICENSE](LICENSE) for details.
+
+Developed by DEEPIKA P | © 2025 TriageXpert. All rights reserved.
