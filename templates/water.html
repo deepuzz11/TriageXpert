@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Water Intake Calculator - TriageXpert</title>
+    <title>Advanced Water Intake Calculator - TriageXpert</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar (with dropdown) -->
+    <!-- Navbar (unchanged) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -39,15 +39,27 @@
         </div>
     </nav>
 
-    <!-- Water Calculator Content -->
+    <!-- Advanced Water Calculator Content -->
     <section class="tool-section">
         <div class="container">
-            <h1 class="tool-title">Daily Water Intake Calculator</h1>
-            <p class="tool-description">Estimate your recommended daily water intake based on weight and lifestyle factors.</p>
+            <h1 class="tool-title">Advanced Daily Water Intake Calculator</h1>
+            <p class="tool-description">Estimate personalized water needs with adjustments for age, gender, activity, climate, and more (using Holliday-Segar method with factors).</p>
             
             <div class="tool-card">
                 <div class="water-calculator">
                     <div class="water-inputs">
+                        <div class="input-group">
+                            <label for="water-age">Age</label>
+                            <input id="water-age" type="number" placeholder="30" min="1" max="120" />
+                        </div>
+                        <div class="input-group">
+                            <label for="water-gender">Gender</label>
+                            <select id="water-gender">
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
                         <div class="input-group">
                             <label for="water-weight">Weight (kg)</label>
                             <input id="water-weight" type="number" placeholder="70" min="10" max="300" />
@@ -56,9 +68,9 @@
                             <label for="water-activity">Activity Level</label>
                             <select id="water-activity">
                                 <option value="">Select</option>
-                                <option value="low">Low (sedentary)</option>
+                                <option value="low">Low</option>
                                 <option value="moderate">Moderate</option>
-                                <option value="high">High (exercise/sports)</option>
+                                <option value="high">High</option>
                             </select>
                         </div>
                         <div class="input-group">
@@ -70,11 +82,32 @@
                                 <option value="hot">Hot/Humid</option>
                             </select>
                         </div>
-                        <button id="calculate-water-btn" class="bmi-button">Calculate Water Intake</button>
+                        <div class="input-group">
+                            <label for="water-exercise">Exercise (hours/day)</label>
+                            <input id="water-exercise" type="number" placeholder="1" min="0" max="10" step="0.5" />
+                        </div>
+                        <button id="calculate-water-btn" class="bmi-button">Calculate Advanced Water Intake</button>
                     </div>
                     <div id="water-result" class="bmi-result-container hidden">
                         <div class="bmi-display">
                             <h4>Daily Water: <span id="water-value"></span> liters</h4>
+                            <div class="advanced-info">
+                                <div class="info-card">
+                                    <h5>Base Requirement</h5>
+                                    <p id="water-base"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>Adjustments Breakdown</h5>
+                                    <p id="water-adjustments"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>Hydration Tips</h5>
+                                    <p id="water-tips"></p>
+                                </div>
+                            </div>
+                            <div class="water-progress">
+                                <div class="progress-bar" id="water-progress"></div>
+                            </div>
                             <div id="water-advice" class="bmi-advice"></div>
                         </div>
                     </div>

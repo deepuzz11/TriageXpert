@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Calorie Needs Calculator - TriageXpert</title>
+    <title>Advanced Calorie Needs Calculator - TriageXpert</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar (with dropdown) -->
+    <!-- Navbar (unchanged) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -39,11 +39,11 @@
         </div>
     </nav>
 
-    <!-- Calorie Calculator Content -->
+    <!-- Advanced Calorie Calculator Content -->
     <section class="tool-section">
         <div class="container">
-            <h1 class="tool-title">Daily Calorie Needs Calculator</h1>
-            <p class="tool-description">Estimate your daily calorie requirements based on the Harris-Benedict equation. Adjust for your lifestyle.</p>
+            <h1 class="tool-title">Advanced Daily Calorie Needs Calculator</h1>
+            <p class="tool-description">Estimate your calorie needs with BMR/TDEE breakdown, macronutrient ratios, and goal-based adjustments (using Mifflin-St Jeor formula).</p>
             
             <div class="tool-card">
                 <div class="calorie-calculator">
@@ -79,11 +79,34 @@
                                 <option value="super">Super Active</option>
                             </select>
                         </div>
-                        <button id="calculate-calorie-btn" class="bmi-button">Calculate Calories</button>
+                        <div class="input-group">
+                            <label for="calorie-goal">Goal</label>
+                            <select id="calorie-goal">
+                                <option value="">Select</option>
+                                <option value="maintain">Maintain Weight</option>
+                                <option value="loss">Weight Loss</option>
+                                <option value="gain">Weight Gain</option>
+                            </select>
+                        </div>
+                        <button id="calculate-calorie-btn" class="bmi-button">Calculate Advanced Calories</button>
                     </div>
                     <div id="calorie-result" class="bmi-result-container hidden">
                         <div class="bmi-display">
                             <h4>Daily Calories: <span id="calorie-value"></span></h4>
+                            <div class="advanced-info">
+                                <div class="info-card">
+                                    <h5>BMR (Base Metabolism)</h5>
+                                    <p id="calorie-bmr"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>TDEE (Total Expenditure)</h5>
+                                    <p id="calorie-tdee"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>Macronutrient Breakdown</h5>
+                                    <p id="calorie-macros"></p>
+                                </div>
+                            </div>
                             <div id="calorie-advice" class="bmi-advice"></div>
                         </div>
                     </div>

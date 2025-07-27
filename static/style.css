@@ -1466,3 +1466,97 @@ body.dark-mode .dropdown-link {
     background: var(--primary-color);
     color: white;
 }
+
+/* Advanced Tool Styles */
+.advanced-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.info-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+}
+
+body.dark-mode .info-card {
+    background: #34495e;
+    border-color: #4a5568;
+}
+
+.info-card h5 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+body.dark-mode .info-card h5 {
+    color: var(--text-light);
+}
+
+.progress-bar {
+    height: 10px;
+    background: #007bff;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.progress-bar.underweight { background: #ffc107; }
+.progress-bar.normal { background: #28a745; }
+.progress-bar.overweight { background: #fd7e14; }
+.progress-bar.obese { background: #dc3545; }
+.progress-bar.hydrate { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+
+/* Dark Mode for Advanced Elements */
+body.dark-mode .progress-bar {
+    background: #4dabf7;
+}
+
+/* Dynamic Dropdown Styles */
+.dynamic-dropdown-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    transition: all var(--transition-speed);
+}
+
+.dynamic-dropdown-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0,123,255,0.3);
+    animation: glow 0.5s ease-in-out;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 0 rgba(0,123,255,0.3); }
+    100% { box-shadow: 0 0 8px rgba(0,123,255,0.3); }
+}
+
+/* Fade-in Animation for Results */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Engaging Info Cards */
+.advanced-info .info-card {
+    transition: transform var(--transition-speed);
+}
+
+.advanced-info .info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .dynamic-dropdown-input:focus {
+    box-shadow: 0 0 8px rgba(77,171,247,0.3);
+}

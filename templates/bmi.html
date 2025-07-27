@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator - TriageXpert</title>
+    <title>Advanced BMI Calculator - TriageXpert</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar (with dropdown) -->
+    <!-- Navbar (unchanged) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -39,15 +39,27 @@
         </div>
     </nav>
 
-    <!-- BMI Calculator Content -->
+    <!-- Advanced BMI Calculator Content -->
     <section class="tool-section">
         <div class="container">
-            <h1 class="tool-title">Body Mass Index (BMI) Calculator</h1>
-            <p class="tool-description">Calculate your BMI to understand if you're in a healthy weight range. This tool uses standard WHO classifications.</p>
+            <h1 class="tool-title">Advanced BMI Calculator</h1>
+            <p class="tool-description">Calculate your BMI with detailed health insights, including category risks, ideal weight range, and estimated body fat percentage (using Deurenberg formula).</p>
             
             <div class="tool-card">
                 <div class="bmi-calculator">
                     <div class="bmi-inputs">
+                        <div class="input-group">
+                            <label for="bmi-age">Age</label>
+                            <input id="bmi-age" type="number" placeholder="30" min="1" max="120" />
+                        </div>
+                        <div class="input-group">
+                            <label for="bmi-gender">Gender</label>
+                            <select id="bmi-gender">
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
                         <div class="input-group">
                             <label for="bmi-height">Height (cm)</label>
                             <input id="bmi-height" type="number" placeholder="170" min="50" max="300" />
@@ -56,12 +68,29 @@
                             <label for="bmi-weight">Weight (kg)</label>
                             <input id="bmi-weight" type="number" placeholder="70" min="10" max="300" />
                         </div>
-                        <button id="calculate-bmi-btn" class="bmi-button">Calculate BMI</button>
+                        <button id="calculate-bmi-btn" class="bmi-button">Calculate Advanced BMI</button>
                     </div>
                     <div id="bmi-result" class="bmi-result-container hidden">
                         <div class="bmi-display">
                             <h4>Your BMI: <span id="bmi-value"></span></h4>
                             <p id="bmi-category" class="bmi-category"></p>
+                            <div class="advanced-info">
+                                <div class="info-card">
+                                    <h5>Body Fat Estimate</h5>
+                                    <p id="bmi-bodyfat"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>Ideal Weight Range</h5>
+                                    <p id="bmi-ideal-weight"></p>
+                                </div>
+                                <div class="info-card">
+                                    <h5>Health Risks</h5>
+                                    <p id="bmi-risks"></p>
+                                </div>
+                            </div>
+                            <div class="bmi-progress">
+                                <div class="progress-bar" id="bmi-progress"></div>
+                            </div>
                             <div id="bmi-advice" class="bmi-advice"></div>
                         </div>
                     </div>
