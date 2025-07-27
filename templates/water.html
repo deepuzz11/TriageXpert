@@ -421,7 +421,6 @@
             <ul class="nav-menu">
                 <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
                 <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
-                <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-link active">Instant Health Tools <i class="fa-solid fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
@@ -430,6 +429,8 @@
                         <li><a href="{{ url_for('water_tool') }}" class="dropdown-link active">Water Intake</a></li>
                     </ul>
                 </li>
+                
+            <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
             </ul>
             <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
                 <i class="fa-solid fa-moon"></i>
