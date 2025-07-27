@@ -64,6 +64,20 @@ def health_hub():
     """Serves the preventive health hub page."""
     return render_template('health-hub.html')
 
+
+# New routes for health tools
+@app.route('/tools/bmi')
+def bmi_tool():
+    return render_template('bmi.html')
+
+@app.route('/tools/calorie')
+def calorie_tool():
+    return render_template('calorie.html')
+
+@app.route('/tools/water')
+def water_tool():
+    return render_template('water.html')
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """A simple health check endpoint to confirm the API is running."""

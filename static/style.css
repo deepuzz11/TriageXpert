@@ -1390,3 +1390,79 @@ body.dark-mode .loading-overlay {
 .dark-mode-toggle:hover i.fa-moon {
     color: #2d3748;  /* Darker hover */
 }
+/* Styles for Calorie Calculator */
+.calorie-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 2rem;
+}
+
+/* Styles for Water Calculator */
+.water-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 2rem;
+}
+
+/* Dark Mode for New Tools (consistent with BMI) */
+body.dark-mode .calorie-result-container,
+body.dark-mode .water-result-container {
+    background: #34495e;
+    color: var(--text-light);
+}
+
+/* Responsive for New Inputs */
+@media (max-width: 768px) {
+    .calorie-inputs,
+    .water-inputs {
+        grid-template-columns: 1fr;
+    }
+}
+/* Navbar Dropdown Styles */
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--background-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    list-style: none;
+    padding: 1rem 0;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+body.dark-mode .dropdown-menu {
+    background: #1a252f;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-link {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background var(--transition-speed);
+}
+
+body.dark-mode .dropdown-link {
+    color: var(--text-light);
+}
+
+.dropdown-link:hover,
+.dropdown-link.active {
+    background: var(--primary-color);
+    color: white;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Water Intake Calculator - TriageXpert</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar (with dropdown) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TriageXpert</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('triage_page') }}" class="nav-link">Triage Tool</a></li>
+                <li><a href="{{ url_for('health_hub') }}" class="nav-link">Health Hub</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-link active">Instant Health Tools <i class="fa-solid fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('bmi_tool') }}" class="dropdown-link">BMI Calculator</a></li>
+                        <li><a href="{{ url_for('calorie_tool') }}" class="dropdown-link">Calorie Needs</a></li>
+                        <li><a href="{{ url_for('water_tool') }}" class="dropdown-link active">Water Intake</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Water Calculator Content -->
+    <section class="tool-section">
+        <div class="container">
+            <h1 class="tool-title">Daily Water Intake Calculator</h1>
+            <p class="tool-description">Estimate your recommended daily water intake based on weight and lifestyle factors.</p>
+            
+            <div class="tool-card">
+                <div class="water-calculator">
+                    <div class="water-inputs">
+                        <div class="input-group">
+                            <label for="water-weight">Weight (kg)</label>
+                            <input id="water-weight" type="number" placeholder="70" min="10" max="300" />
+                        </div>
+                        <div class="input-group">
+                            <label for="water-activity">Activity Level</label>
+                            <select id="water-activity">
+                                <option value="">Select</option>
+                                <option value="low">Low (sedentary)</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High (exercise/sports)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="water-climate">Climate</label>
+                            <select id="water-climate">
+                                <option value="">Select</option>
+                                <option value="cool">Cool</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="hot">Hot/Humid</option>
+                            </select>
+                        </div>
+                        <button id="calculate-water-btn" class="bmi-button">Calculate Water Intake</button>
+                    </div>
+                    <div id="water-result" class="bmi-result-container hidden">
+                        <div class="bmi-display">
+                            <h4>Daily Water: <span id="water-value"></span> liters</h4>
+                            <div id="water-advice" class="bmi-advice"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
