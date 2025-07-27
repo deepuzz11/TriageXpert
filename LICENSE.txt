@@ -1,0 +1,16 @@
+Custom License – View Only
+
+Copyright (c) 2025 Deepika P
+
+Permission is hereby **granted, free of charge, to view this repository and its contents via the provided URL**, for personal, non-commercial, and evaluation purposes only, subject to the following conditions:
+
+- No permission is granted to copy, clone, fork, download, modify, distribute, sublicense, or use this repository or any part of its contents in any software or product.
+- The contents of this repository may not be republished, mirrored, or hosted elsewhere without explicit written permission from the copyright holder.
+- This repository is intended solely for portfolio evaluation by recruiters, hiring committees, or academic reviewers.
+
+The above copyright notice and this permission notice shall be included in all allowed references.
+
+THE CONTENT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, ARISING FROM OR IN CONNECTION WITH VIEWING OR ATTEMPTED USE OF THIS CONTENT.
+
+For usage requests or special permissions, contact:
+📩 deepikaprabhakaran11@gmail.com
