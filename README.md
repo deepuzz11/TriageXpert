@@ -60,8 +60,6 @@ TriageXpert is implemented with a multi-stage architecture designed to ensure a 
 4. **Dark Mode**: Toggle via navbar icon (persists across sessions).
 5. **BMI Calculator**: Input height/weight for instant results.
 
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+## License - see [LICENSE](LICENSE.txt) for details.
 
 Developed by DEEPIKA P | © 2025 TriageXpert. All rights reserved.
